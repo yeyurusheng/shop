@@ -82,4 +82,15 @@ class TestController extends Controller
 	public function cookieTest2(){
 		echo '<pre>';print_r($_COOKIE);echo '</pre>';
 	}
+	public function add(){
+		$data = [
+				'name'      => str_random(5),
+				'age'       => mt_rand(20,99),
+				'email'     => str_random(6) . '@gmail.com',
+				'time'  => time()
+		];
+
+		$id = UserModel::insertGetId($data);
+		var_dump($id);
+	}
 }

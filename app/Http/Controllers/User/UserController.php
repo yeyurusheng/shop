@@ -8,17 +8,6 @@ class UserController extends Controller{
 	public function user($uid){
 		echo $uid;
 	}
-	public function add(){
-		$data = [
-			'name'      => str_random(5),
-			'age'       => mt_rand(20,99),
-			'email'     => str_random(6) . '@gmail.com',
-			'time'  => time()
-		];
-
-		$id = UserModel::insertGetId($data);
-		var_dump($id);
-	}
 	/** 用户注册视图 */
 	public function register(){
 		return view('users.register');
@@ -85,6 +74,7 @@ class UserController extends Controller{
 			$request->session()->put('u_token',$token);
 			header('refresh:2;/show');
 		}else{
+			header('refresh:2;/login');
 			die('密码错误');
 		};
 		//print_r($add);
@@ -93,6 +83,11 @@ class UserController extends Controller{
 	}
 	/** 展示 */
 	public function show(Request $request){
+		//echo '<pre>';var_dump($request->session());echo '</pre>';
+		if(empty($_COOKIE['token'])){
+			echo '请先登录';
+			header('refresh:2;/login');
+		}
 		if($_COOKIE['token']!=$request->session()->get('u_token')){
 			die('非法请求');
 		}else{
@@ -105,7 +100,12 @@ class UserController extends Controller{
 			echo '请先登录';
 			//header('refresh:2;/login');
 		}else{
-			return view('users.show');
+			echo 'UID:'.$_COOKIE['uid'].'欢迎回来';
 		}
+	}
+	/** 退出 */
+	public function quit(){
+		setcookie('uid','',time()-1);
+		header('refresh:1,url=/login');
 	}
 }
