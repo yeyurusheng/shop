@@ -82,36 +82,45 @@ class CartController extends Controller{
                 'msg'=>'商品已售完'
             ];
         }
-        $goods=CartModel::where(['uid'=>session()->get('uid')])->first();
-        //var_dump($goods);exit;
-        if(empty($goods)){
-            echo 111;
-            //$buy_number=CartModel::where([''])
-        }
-//        $data=$request->session()->all();
+        $uid=$request->session()->get('uid');
+        $cart=CartModel::where(['g_id'=>$g_id,'uid'=>$uid])->first();
+        //var_dump($cart);exit;
+        if(!empty($cart)){
+            $buy_number=$cart->buy_number;
+            $number=$buy_number+$num;
+            $cart_num=CartModel::where(['g_id'=>$g_id,'uid'=>$uid])->update(['buy_number'=>$number]);
+            if($cart_num){
+                $response=[
+                    'errno'=>0,
+                    'msg'=>'添加成功'
+                ];
+            }
+        }else{
+            //        $data=$request->session()->all();
 //        var_dump($data);exit;
 //        $uid=$request->session()->get('uid');
 //        var_dump($uid);
-        //写入购物车
-        $data=[
-            'g_id'=>$g_id,
-            'buy_number'=>$num,
-            'add_time'=>time(),
-            'session_token'=>$request->session()->get('u_token'),
-            'uid'=>$request->session()->get('uid')
-        ];
-        $c_id=CartModel::insertGetId($data);
-        if(!$c_id){
-            $response=[
-                'errno'=>5002,
-                'msg'=>'添加购物车失败，请重试'
+            //写入购物车
+            $data=[
+                'g_id'=>$g_id,
+                'buy_number'=>$num,
+                'add_time'=>time(),
+                'session_token'=>$request->session()->get('u_token'),
+                'uid'=>$request->session()->get('uid')
             ];
-            return $response;
+            $c_id=CartModel::insertGetId($data);
+            if(!$c_id){
+                $response=[
+                    'errno'=>5002,
+                    'msg'=>'添加购物车失败，请重试'
+                ];
+                return $response;
+            }
+            $response=[
+                'errno'=>0,
+                'msg'=>'添加成功'
+            ];
         }
-        $response=[
-            'errno'=>0,
-            'msg'=>'添加成功'
-        ];
         return $response;
     }
     /** 购物车删除  session */
@@ -134,7 +143,8 @@ class CartController extends Controller{
     }
     /** 购物车数据库删除 */
     public function del2($g_id){
-        $res=GoodsModel::where(['uid'=>session()->get('uid'),'g_id'=>$g_id])->delete();
+        $res=CartModel::where(['uid'=>session()->get('uid'),'g_id'=>$g_id])->delete();
         echo '删除成功';
+        header('refresh:2;/cart/cart');
     }
 }
