@@ -7,7 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class GoodsController extends Controller{
-    /** 商品展示 */
+    /** 商品列表展示 */
+    public function goodsList(){
+        $goods=GoodsModel::all();
+        //var_dump($goods);exit;
+        $data=[
+            'list'=>$goods
+        ];
+        //var_dump($data);exit;
+        return view('goods.goods',$data);
+    }
+
+    /** 商品单个展示 */
     public function show($g_id){
         $goods=GoodsModel::where(['g_id'=>$g_id])->first();
         //var_dump($goods);

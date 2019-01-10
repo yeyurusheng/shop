@@ -72,6 +72,7 @@ class UserController extends Controller{
 			//echo'<pre>';print_r($_COOKIE);echo'</pre>';
 			echo '登陆成功';
 			$request->session()->put('u_token',$token);
+			$request->session()->put('uid',$add->uid);
 			header('refresh:2;/show');
 		}else{
 			header('refresh:2;/login');

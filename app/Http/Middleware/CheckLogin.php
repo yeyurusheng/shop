@@ -17,9 +17,16 @@ class CheckLogin
     {
         $token=$request->session()->get('u_token');
         //echo $token;
-        if(!$token){
-            echo '请先登录';
-            header('refresh:2;url=/login');
+        /*if(!$token){
+            echo json_encode([
+                'errno'=>301,
+                'url'=>'/login'
+            ]);
+            die;
+        }*/
+        if(empty($_COOKIE['uid'])){
+            echo 'No UID ，请先登录';echo '</br>';
+            header('Refresh:0;url=/login');
         }
         return $next($request);
     }

@@ -66,10 +66,17 @@ Route::get('/show','User\UserController@show');
 Route::get('/cookie','Test\TestController@cookieTest');
 Route::get('/cookie2','Test\TestController@cookieTest2');
 
-//购物车
-Route::get('/cart/cart','Cart\CartController@cart')->middleware('check.login');
-Route::get('/cart/add/{goods_id}','Cart\CartController@cartAdd');  //购物车添加
-Route::get('/cart/del/{goods_id}','Cart\CartController@cartDel');  //购物车删除
+//购物车 Cart
+Route::get('/cart/cart','Cart\CartController@cart')->middleware('check.login'); //购物车展示
+Route::get('/cart/add/{g_id}','Cart\CartController@cartAdd');  //购物车添加
+Route::get('/cart/del/{g_id}','Cart\CartController@cartDel');  //购物车删除
+Route::post('/cart/add2','Cart\CartController@goodsAdd');   //购物车数据库添加
+Route::get('/cart/add2','Cart\CartController@goodsAdd');
+Route::get('/cart/del2/{g_id}','Cart\CartController@del2');   //购物车数据库删除
 
-//商品展示
-Route::get('/goods/list/{g_id}','Goods\GoodsController@show');
+//商品展示 Goods
+Route::get('/goods/show/{g_id}','Goods\GoodsController@show');  //商品单个展示
+Route::get('/goods/list','Goods\GoodsController@goodsList');    //商品列表展示
+
+//订单
+Route::get('/order/add','Order\OrderController@add');//订单添加
