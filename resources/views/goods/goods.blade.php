@@ -1,7 +1,7 @@
 {{--商品列表展示--}}
 @extends('layouts.bst')
 @section('content')
-    <h1 style="color:firebrick" align="center">欢迎来到kongyi</h1>
+    <h1 style="color:firebrick" align="center">欢迎来到商品详情页</h1>
     <table class="table table-striped">
         <tr>
             <th>商品名称</th>

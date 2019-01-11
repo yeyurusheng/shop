@@ -75,12 +75,14 @@ class CartController extends Controller{
         $num=$request->input('buy_number');
         //var_dump($num) ;
         //检查库存
-        $store_num=GoodsModel::where(['g_id'=>$g_id])->value('g_store');
+        $store_num=intval(GoodsModel::where(['g_id'=>$g_id])->value('g_store'));
+        //var_dump($store_num);exit;
         if($store_num<=0){
             $response=[
                 'errno'=>5001,
                 'msg'=>'商品已售完'
             ];
+            return $response;
         }
         $uid=$request->session()->get('uid');
         $cart=CartModel::where(['g_id'=>$g_id,'uid'=>$uid])->first();
@@ -94,6 +96,7 @@ class CartController extends Controller{
                     'errno'=>0,
                     'msg'=>'添加成功'
                 ];
+                return $response;
             }
         }else{
             //        $data=$request->session()->all();
@@ -120,8 +123,8 @@ class CartController extends Controller{
                 'errno'=>0,
                 'msg'=>'添加成功'
             ];
+            return $response;
         }
-        return $response;
     }
     /** 购物车删除  session */
     public function cartDel($g_id){

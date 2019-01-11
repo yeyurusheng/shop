@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use App\Model\CartModel;
 use App\Model\GoodsModel;
+use App\Model\OrderDetailModel;
 use App\Model\OrderModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,16 +28,29 @@ class OrderController extends Controller
         if(empty($cart_goods)){
             die('购物车中没有商品');
         }
+        //生成订单号
+        $order_sn=OrderModel::generateOrderSN();
+        //var_dump($order_sn);
         $amount=0;
         foreach($cart_goods as $k=>$v){
             $cart_num=$v->buy_number;
             $goods_info = GoodsModel::where(['g_id'=>$v['g_id']])->first();
-            $goods_num=$goods_info->g_store;
+            $goods_num=intval($goods_info->g_store);
             $update=[
                 'g_store'=>$goods_num-$cart_num
             ];
             GoodsModel::where(['g_id'=>$v['g_id']])->update($update);
             $goods_info['buy_number'] = $v['buy_number'];
+            $detail_data=[
+                'order_sn'=>$order_sn,
+                'g_id'=>$v['g_id'],
+                'g_name'=>$goods_info->g_name,
+                'g_price'=>$goods_info->g_price,
+                'buy_number'=>$goods_info['buy_number'],
+                'uid'=>$request->session()->get('uid'),
+                'add_time'=>time()
+            ];
+            OrderDetailModel::insertGetId($detail_data);
             $list[] = $goods_info;
             //计算订单价格 = 商品数量 * 单价
             $amount += $goods_info['g_price'] * $v['buy_number'];
@@ -56,9 +70,6 @@ class OrderController extends Controller
 
             //echo $order_amount;*/
         }
-        //生成订单号
-        $order_sn=OrderModel::generateOrderSN();
-        //var_dump($order_sn);
         $data=[
             'order_sn'=>$order_sn,
             'uid'=>$request->session()->get('uid'),
@@ -73,18 +84,45 @@ class OrderController extends Controller
         //清空购物车
         CartModel::where(['uid'=>$request->session()->get('uid')])->delete();
         //return $amount;
-        header('refresh:2;url=/pay/show');
+        header('refresh:2;url=/order/show');
+    }
+
+    /** 订单详情展示 */
+    public function detailShow(){
+        $detail_show=OrderDetailModel::all();
+        $data=[
+            'list'=>$detail_show
+        ];
+        return view('order.detail_show',$data);
     }
 
     /** 订单取消 */
-    public function cancel($o_id){
-
-        $cancel=OrderModel::where(['o_id'=>$o_id])->update(['status'=>3]);
+    public function cancel($order_sn){
+        $cancel=OrderModel::where(['order_sn'=>$order_sn])->update(['status'=>3]);
         if($cancel){
-            echo '删除成功';
-            header('refresh:2,url=/order/show');
-        }else{
-            echo '删除失败';
+            echo '取消订单成功';
+           $g_id=OrderDetailModel::where(['order_sn'=>$order_sn])->get()->toArray();
+           foreach($g_id as $k=>$v){
+               $where=[
+                   'g_id'=>$v['g_id']
+               ];
+               $buy_number=intval(OrderDetailModel::where($where)->value('buy_number'));
+               $goods_num=intval(GoodsModel::where($where)->value('g_store'));
+               $update=[
+                   'g_store'=>$buy_number+$goods_num
+               ];
+               $goods=GoodsModel::where($where)->update($update);
+           }
+
+
+        //$g_id=OrderDetailModel::where(['d_id'=>1])->get();
+//        $goods_id=$g_id->g_id;
         }
+//        if($cancel){
+//            echo '删除成功';
+//            header('refresh:2,url=/order/show');
+//        }else{
+//            echo '删除失败';
+//        }
     }
 }

@@ -10,7 +10,15 @@ use DB;
 
 class TestController extends Controller
 {
-    //
+    /** 请求订单服务 处理订单逻辑 */
+	public function test(){
+		$url='http://order.lening.com';
+		$client=new Client([
+			'base_uri'=>$url,
+			'timeout'=>2.0,
+		]);
+		$response=$client->request('CET','/order.php');
+	}
 
 	public function world1()
 	{

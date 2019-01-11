@@ -62,9 +62,10 @@ Route::get('/mvc/test','Mvc\mvcController@mvc');
 //展示
 Route::get('/show','User\UserController@show');
 
-//cookie
-Route::get('/cookie','Test\TestController@cookieTest');
-Route::get('/cookie2','Test\TestController@cookieTest2');
+//测试
+Route::get('/cookie','Test\TestController@cookieTest');   //cookie
+Route::get('/cookie2','Test\TestController@cookieTest2');  //cookie
+Route::get('/order/pay/show','Test\TestController@test');  //guzzlehttp
 
 //购物车 Cart
 Route::get('/cart/cart','Cart\CartController@cart')->middleware('check.login'); //购物车展示
@@ -81,7 +82,8 @@ Route::get('/goods/list','Goods\GoodsController@goodsList');    //商品列表�
 //订单 Order
 Route::get('/order/add','Order\OrderController@add');//订单添加
 Route::get('/order/show','Order\OrderController@show'); //订单展示
-Route::get('/order/cancel/{o_id}','Order\OrderController@cancel'); //订单展示
+Route::get('/order/cancel/{order_sn}','Order\OrderController@cancel'); //订单取消
+Route::get('/order/detail','Order\OrderController@detailShow'); //订单详情展示
 
 //支付 Pay
-Route::get('pay/show','Pay\PayController@show');  //支付
+Route::get('pay/show/{order_sn}','Pay\PayController@show');  //支付
