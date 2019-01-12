@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Test;
 use App\Model\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use DB;
+use GuzzleHttp\Client;
+
 
 class TestController extends Controller
 {
@@ -71,7 +72,7 @@ class TestController extends Controller
 		$info = DB::table('p_users')->pluck('age', 'name')->toArray();
 		echo '<pre>';print_r($info);echo '</pre>';
 	}
-	public function test(){
+	public function test1(){
 		$data=[];
 		return view('test.index',$data);
 	}
