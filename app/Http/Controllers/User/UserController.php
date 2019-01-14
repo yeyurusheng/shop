@@ -36,7 +36,7 @@ class UserController extends Controller{
 		//if($data['name'])
 		$name=$request->input('name');
 		$where=[
-			'name'=>$name
+			'u_name'=>$name
 		];
 		$res=UserModel::where($where)->first();
 		if($res){
@@ -59,7 +59,7 @@ class UserController extends Controller{
 		$name=$request->input('name');
 		$pwd=$request->input('pwd');
 		//var_dump($where);
-		$add=UserModel::where(['name'=>$name])->first();
+		$add=UserModel::where(['u_name'=>$name])->first();
 		//var_dump($add);exit;
 		if(empty($add)){
 			die('账号不存在');
