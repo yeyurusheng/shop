@@ -24,7 +24,7 @@ class UserController extends Controller{
 		}
 		$pwd=password_hash($pwd1,PASSWORD_BCRYPT);
 		$data=[
-			'name'=>$request->input('name'),
+			'u_name'=>$request->input('name'),
 			'pwd'=>$pwd,
 			'age'=>$request->input('age'),
 			'email'=>$request->input('email'),
