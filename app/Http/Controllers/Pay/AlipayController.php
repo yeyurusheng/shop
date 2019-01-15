@@ -11,6 +11,9 @@ use Symfony\Component\HttpKernel\Client;
 
 class AlipayController extends Controller
 {
+    //
+
+
     public $app_id;
     public $gate_way;
     public $notify_url;
@@ -84,6 +87,65 @@ class AlipayController extends Controller
         $url = $this->gate_way . $url;
         header("Location:".$url);
     }
+
+
+    /**
+     * 订单支付
+     * @param $oid
+     */
+    public function pay($oid)
+    {
+
+        //验证订单状态 是否已支付 是否是有效订单
+        $order_info = OrderModel::where(['o_id'=>$oid])->first()->toArray();
+
+        //判断订单是否已被支付
+        if($order_info['is_pay']==1){
+            die("订单已支付，请勿重复支付");
+        }
+        //判断订单是否已被删除
+        if($order_info['is_delete']==1){
+            die("订单已被删除，无法支付");
+        }
+
+
+
+        //业务参数
+        $bizcont = [
+            'subject'           => 'Lening-Order: ' .$oid,
+            'out_trade_no'      => $oid,
+            'total_amount'      => $order_info['order_amount'] / 100,
+            'product_code'      => 'QUICK_WAP_WAY',
+
+        ];
+
+        //公共参数
+        $data = [
+            'app_id'   => $this->app_id,
+            'method'   => 'alipay.trade.wap.pay',
+            'format'   => 'JSON',
+            'charset'   => 'utf-8',
+            'sign_type'   => 'RSA2',
+            'timestamp'   => date('Y-m-d H:i:s'),
+            'version'   => '1.0',
+            'notify_url'   => $this->notify_url,        //异步通知地址
+            'return_url'   => $this->return_url,        // 同步通知地址
+            'biz_content'   => json_encode($bizcont),
+        ];
+
+        //签名
+        $sign = $this->rsaSign($data);
+        $data['sign'] = $sign;
+        $param_str = '?';
+        foreach($data as $k=>$v){
+            $param_str .= $k.'='.urlencode($v) . '&';
+        }
+
+        $url = rtrim($param_str,'&');
+        $url = $this->gate_way . $url;
+        header("Location:".$url);
+    }
+
 
 
     public function rsaSign($params) {
@@ -165,14 +227,25 @@ class AlipayController extends Controller
      */
     public function aliReturn()
     {
-        echo '<pre>';print_r($_GET);echo '</pre>';
-        //验签 支付宝的公钥
-        if(!$this->verify()){
-            echo 'error';
-        }
 
-        //处理订单逻辑
-        $this->dealOrder($_GET);
+        echo '<pre>';print_r($_GET);echo '</pre>';
+        //header('Refresh:1;url=/order/show');
+        echo "订单： ".$_GET['out_trade_no'] . ' 支付成功，正在跳转';
+
+//        echo '<pre>';print_r($_GET);echo '</pre>';die;
+//        //验签 支付宝的公钥
+        if(!$this->verify($_GET)){
+            die('簽名失敗');
+        }
+//
+//        //验证交易状态
+////        if($_GET['']){
+////
+////        }
+////
+//
+//        //处理订单逻辑
+//        $this->dealOrder($_GET);
     }
 
     /**
@@ -180,7 +253,6 @@ class AlipayController extends Controller
      */
     public function aliNotify()
     {
-
         $data = json_encode($_POST);
         $log_str = '>>>> '.date('Y-m-d H:i:s') . $data . "<<<<\n\n";
         //记录日志
@@ -196,6 +268,22 @@ class AlipayController extends Controller
         }else{
             $log_str .= " Sign OK!<<<<< \n\n";
             file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
+        }
+
+        //验证订单交易状态
+        if($_POST['trade_status']=='TRADE_SUCCESS'){
+            //更新订单状态
+            $oid = $_POST['out_trade_no'];     //商户订单号
+            $info = [
+                'status'        => 2,       //订单状态   1 待支付 2已支付 3已取消
+                'is_pay'        => 1,       //支付状态  0未支付 1已支付
+                'pay_amount'    => $_POST['total_amount'] * 100,    //支付金额
+                'pay_time'      => strtotime($_POST['gmt_payment']), //支付时间
+                'plat_oid'      => $_POST['trade_no'],      //支付宝订单号
+                'plat'          => 1,      //平台编号 1支付宝 2微信
+            ];
+
+            OrderModel::where(['o_id'=>$oid])->update($info);
         }
 
         //处理订单逻辑
@@ -229,12 +317,6 @@ class AlipayController extends Controller
         return $result;
     }
 
-    protected function rsaCheckV1($params, $rsaPublicKeyFilePath,$signType='RSA') {
-        $sign = $params['sign'];
-        $params['sign_type'] = null;
-        $params['sign'] = null;
-        return $this->verify($this->getSignContent($params), $sign, $rsaPublicKeyFilePath,$signType);
-    }
 
     /**
      * 处理订单逻辑 更新订单 支付状态 更新订单支付金额 支付时间

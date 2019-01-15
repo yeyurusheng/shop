@@ -19,11 +19,11 @@ class IndexController extends Controller
      * 订单支付
      *
      */
-    public function order($oid){
+    public function order($order_sn){
         //查询订单
-        $order_info = OrderModel::where(['oid'=>$oid])->first();
+        $order_info = OrderModel::where(['order_sn'=>$order_sn])->first();
         if(!$order_info){
-            die("订单 ".$oid. "不存在！");
+            die("订单 ".$order_sn. "不存在！");
         }
         //检查订单状态 是否已支付 已过期 已删除
         if($order_info->pay_time > 0){
@@ -34,7 +34,7 @@ class IndexController extends Controller
 
 
         //支付成功 修改支付时间
-        OrderModel::where(['oid'=>$oid])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
+        OrderModel::where(['order_sn'=>$order_sn])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
 
         //增加消费积分 ...
 
