@@ -258,7 +258,7 @@ class AlipayController extends Controller
         //记录日志
         file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
         //验签
-        $res = $this->verify($_POST);
+       /* $res = $this->verify($_POST);
 
         $log_str = '>>>> ' . date('Y-m-d H:i:s');
         if($res === false){
@@ -284,7 +284,7 @@ class AlipayController extends Controller
             ];
 
             OrderModel::where(['o_id'=>$oid])->update($info);
-        }
+        }*/
 
         //处理订单逻辑
         $this->dealOrder($_POST);
