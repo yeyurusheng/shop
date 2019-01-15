@@ -113,7 +113,7 @@ class AlipayController extends Controller
         //业务参数
         $bizcont = [
             'subject'           => 'Lening-Order: ' .$oid,
-            'out_trade_no'      => $oid,
+            'out_trade_no'      => rand(100,999),
             'total_amount'      => $order_info['order_amount'] / 100,
             'product_code'      => 'QUICK_WAP_WAY',
 
@@ -235,7 +235,7 @@ class AlipayController extends Controller
 //        echo '<pre>';print_r($_GET);echo '</pre>';die;
 //        //验签 支付宝的公钥
         if(!$this->verify($_GET)){
-            die('簽名失敗');
+            die('签名失败');
         }
 //
 //        //验证交易状态
@@ -258,7 +258,7 @@ class AlipayController extends Controller
         //记录日志
         file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
         //验签
-       /* $res = $this->verify($_POST);
+        $res = $this->verify($_POST);
 
         $log_str = '>>>> ' . date('Y-m-d H:i:s');
         if($res === false){
@@ -284,7 +284,7 @@ class AlipayController extends Controller
             ];
 
             OrderModel::where(['o_id'=>$oid])->update($info);
-        }*/
+        }
 
         //处理订单逻辑
         $this->dealOrder($_POST);
