@@ -227,16 +227,17 @@ class AlipayController extends Controller
      */
     public function aliReturn()
     {
+        if(!$this->verify($_GET)){
+            die('签名失败');
+        }
 
         echo '<pre>';print_r($_GET);echo '</pre>';
         //header('Refresh:1;url=/order/show');
         echo "订单： ".$_GET['out_trade_no'] . ' 支付成功，正在跳转';
-
+        header('refresh:2;url=/order/list');
 //        echo '<pre>';print_r($_GET);echo '</pre>';die;
 //        //验签 支付宝的公钥
-        if(!$this->verify($_GET)){
-            die('签名失败');
-        }
+
 //
 //        //验证交易状态
 ////        if($_GET['']){
@@ -244,8 +245,8 @@ class AlipayController extends Controller
 ////        }
 ////
 //
-//        //处理订单逻辑
-//        $this->dealOrder($_GET);
+        //处理订单逻辑
+        $this->dealOrder($_GET);
     }
 
     /**
@@ -329,6 +330,18 @@ class AlipayController extends Controller
         //加积分
 
         //减库存
+    }
+
+    /** 几分钟后失效 */
+    public function del(){
+        $data=OrderModel::get()->toArray();
+       // echo '<pre>';print_r($data);echo '</pre>';
+        foreach($data as $k => $v){
+            if($v['is_pay']==0 && time()-$v['add_time']>300){
+                OrderModel::where(['o_id'=>$v['o_id']])->update(['is_delete'=>1]);
+            }
+        }
+        echo date('Y-m-d H:i:s').'执行';
     }
 }
 
