@@ -5,8 +5,13 @@ namespace App\Http\Controllers\GOods;
 use App\Model\GoodsModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class GoodsController extends Controller{
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /** 商品列表展示 */
     public function goodsList(){
         $goods=GoodsModel::all();
@@ -32,3 +37,5 @@ class GoodsController extends Controller{
         return view('goods.show',$data);
     }
 }
+
+

@@ -102,4 +102,7 @@ class TestController extends Controller
 		$id = UserModel::insertGetId($data);
 		var_dump($id);
 	}
+	public function wang(){
+	    echo  date('ymd H:i:s');
+    }
 }

@@ -88,7 +88,7 @@ Route::get('/order/detail','Order\OrderController@detailShow'); //订单详情�
 //支付 Pay
 Route::get('pay/show/{order_sn}','Pay\PayController@show');  //支付
 Route::get('/pay/alipay/test','Pay\AlipayController@test');         //测试
-Route::get('/pay/order/{o_id}','Pay\AlipayController@pay')->middleware('check.login');         //订单支付
+Route::get('/pay/order/{o_id}','Pay\AlipayController@pay');        //订单支付
 Route::post('/pay/alipay/notify','Pay\AlipayController@aliNotify');        //支付宝支付 异步通知回调
 Route::get('/pay/alipay/returnpay','Pay\AlipayController@aliReturn');        //支付宝支付 同步通知回调
 Route::get('/pay/alipay/del','Pay\AlipayController@del');
@@ -106,3 +106,7 @@ Route::get('/pay/alipay/del','Pay\AlipayController@del');
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
