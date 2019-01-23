@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Login;
 
 use App\Model\UserModel;
+use Doctrine\Common\Cache\Cache;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -36,12 +38,13 @@ class LoginController extends Controller
                 'name'=>$name,
                 'pwd'=>$pwd
             ];
-            Redis::set('name',$login);
+            Redis::set('name',$login,30);
             $values = Redis::get('name');
-            dump($values);
+            var_dump($values);
         }else{
             header('refresh:2;/login');
             die('密码错误');
         };
     }
+
 }
