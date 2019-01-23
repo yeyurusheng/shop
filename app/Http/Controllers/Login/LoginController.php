@@ -38,11 +38,10 @@ class LoginController extends Controller
                 'name'=>$name,
                 'pwd'=>$pwd
             ];
-            Redis::put('pwd',$pwd,30);
+            Redis::set('pwd',$pwd,30);
             $values = Redis::get('pwd');
-            var_dump(unserialize($values));
-            if (unserialize($values)==$values){
-                Redis::get('pwd');
+            if($values!=''){
+                
             }
         }else{
             header('refresh:2;/login');
