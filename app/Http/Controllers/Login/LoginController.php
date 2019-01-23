@@ -31,18 +31,17 @@ class LoginController extends Controller
             echo '登陆成功';
             $request->session()->put('u_token',$token);
             $request->session()->put('uid',$add->uid);
-            header('refresh:2;/show');
-            Redis::set('name',$name,'pwd',$pwd);
-            $values = Redis::get('name','pwd');
-            dd($values);
+            //header('refresh:2;/show');
+            $login=[
+                'name'=>$name,
+                'pwd'=>$pwd
+            ];
+            Redis::set('name',$login);
+            $values = Redis::get('name');
+            dump($values);
         }else{
             header('refresh:2;/login');
             die('密码错误');
         };
-    }
-    public function redis(){
-        Redis::set('name','wei');
-        $values = Redis::get('name');
-        dd($values);
     }
 }
