@@ -38,9 +38,12 @@ class LoginController extends Controller
                 'name'=>$name,
                 'pwd'=>$pwd
             ];
-            Redis::set('name',$login,30);
-            $values = Redis::get('name');
-            var_dump($values);
+            Redis::put('pwd',$pwd,30);
+            $values = Redis::get('pwd');
+            var_dump(unserialize($values));
+            if (unserialize($values)==$values){
+                Redis::get('pwd');
+            }
         }else{
             header('refresh:2;/login');
             die('密码错误');
