@@ -93,7 +93,10 @@ Route::post('/pay/alipay/notify','Pay\AlipayController@aliNotify');        //支
 Route::get('/pay/alipay/returnpay','Pay\AlipayController@aliReturn');        //支付宝支付 同步通知回调
 Route::get('/pay/alipay/del','Pay\AlipayController@del');
 
-
+//用户登录  考试
+Route::get('exam/login','Login\LoginController@login');
+Route::post('exam/login','Login\LoginController@loginTest');
+Route::get('redis','Login\LoginController@redis');
 
 
 
