@@ -51,8 +51,8 @@ Route::get('/register','User\UserController@register');
 Route::post('/register','User\UserController@doreg');
 
 // 登录
-Route::get('/login','User\UserController@login');
-Route::post('/login','User\UserController@dologin');
+Route::get('/melogin','User\UserController@login');
+Route::post('/melogin','User\UserController@dologin');
 
 //退出
 Route::get('/quit','User\UserController@quit');
@@ -97,8 +97,14 @@ Route::get('/pay/alipay/del','Pay\AlipayController@del');
 Route::get('exam/login','Login\LoginController@login');
 Route::post('exam/login','Login\LoginController@loginTest');
 Route::get('redis','Login\LoginController@redis');
+Route::get('/update','Login\LoginController@pwd');
+Route::post('/update','Login\LoginController@pwdUpdate');
 
 
+//微信
+Route::get('weixin/test','Weixin\WeixinController@test');
+Route::get('weixin/valid','Weixin\WeixinController@validToken');
+Route::post('weixin/valid','Weixin\WeixinController@wxEvent');
 
 
 

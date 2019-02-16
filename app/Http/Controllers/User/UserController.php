@@ -75,7 +75,7 @@ class UserController extends Controller{
 			$request->session()->put('uid',$add->uid);
 			header('refresh:2;/show');
 		}else{
-			header('refresh:2;/login');
+			header('refresh:2;/melogin');
 			die('密码错误');
 		};
 		//print_r($add);

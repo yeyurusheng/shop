@@ -38,15 +38,29 @@ class LoginController extends Controller
                 'name'=>$name,
                 'pwd'=>$pwd
             ];
-            Redis::set('pwd',$pwd,30);
-            $values = Redis::get('pwd');
-            if($values!=''){
-                
-            }
+
         }else{
             header('refresh:2;/login');
             die('密码错误');
         };
     }
+    public function pwd(){
+        return view('login.pwdUpdate');
+    }
+    public function pwdUpdate(Request $request){
+        $name=$request->input('name');
+        $pwd=$request->input('pwd');
+        $where=[
+            'u_name'=>$name
+        ];
+        $pwd1=password_hash($pwd,PASSWORD_BCRYPT);
+        $data=[
+            'pwd'=>$pwd1
+        ];
+        $up=UserModel::where($where)->update($data);
 
+        if($up){
+            echo '修改成功';
+        }
+    }
 }

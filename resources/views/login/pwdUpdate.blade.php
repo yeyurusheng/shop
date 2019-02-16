@@ -11,7 +11,7 @@
     <title>用户登录</title>
 </head>
 <body>
-<form action="/exam/login" method="post">
+<form action="/update" method="post">
     {{csrf_field()}}
     <div class="form-group" style="width:400px;">
         <label for="exampleInputEmail1">姓名</label>
@@ -21,8 +21,7 @@
         <label for="exampleInputPassword1">密码</label>
         <input type="password" name="pwd" class="form-control" id="exampleInputPassword1" placeholder="密码">
     </div>
-    <button type="submit" class="btn btn-default">登录</button>
-    <a href="/update" >修改密码</a>
+    <button type="submit" class="btn btn-default">密码修改</button>
 </form>
 </body>
 </html>
