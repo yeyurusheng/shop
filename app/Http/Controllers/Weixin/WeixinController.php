@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Weixin;
 
+use App\Model\WeixinUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -20,13 +21,54 @@ class WeixinController extends Controller{
         echo $_GET['echostr'];
     }
 
-    /** 接收微信服务器事件推送 */
+    /**
+     * 接收微信服务器事件推送
+     */
     public function wxEvent(){
-        $data=file_get_contents("php://input");
+        $data = file_get_contents("php://input");
+        //解析XML
+        $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
+        //var_dump($xml);exit;
+        $event = $xml->Event;               //事件类型
+
+        if($event=='subscribe') {
+            $openid = $xml->FromUserName;               //用户openid
+            $sub_time = $xml->CreateTiem;               //扫码关注时间
+
+
+            echo 'openid:' . $openid;
+            echo '</br>';
+            echo 'sub_time:' . $sub_time;
+            //获取用户信息
+            $user_info = $this->getUserInfo($openid);
+            echo '<pre>';
+            print_r($user_info);
+            echo '</pre>';
+            //保存用户信息
+            $u = WeixinUser::where(['openid' => $openid])->first();
+            if ($u) {
+                echo '用户不存在';
+            } else {
+                $user_data = [
+                    'openid' => $openid,
+                    'add_time' => time(),
+                    'nickname' => $user_info['nickname'],
+                    'sex' => $user_info['sex'],
+                    'headimgurl' => $user_info['headimgurl'],
+                    'subscribe_time' => $sub_time,
+                ];
+                $id = WeixinUser::insertGetId($user_data);    //保存用户信息
+                var_dump($id);
+            }
+        }
         $log_str=date('Y-m-d H:i:s')."\n".$data."\n<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
-    /** 获取微信access_token */
+
+    /**
+     * 获取微信access_token
+     * @return mixed
+     */
     public function getWXAccessToken(){
         //获取缓存
         $token=Redis::get($this->redis_weixin_access_token);
