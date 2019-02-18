@@ -35,7 +35,7 @@ class WeixinController extends Controller{
 
         if($event=='subscribe') {
             $openid = $xml->FromUserName;               //用户openid
-            $sub_time = $xml->CreateTiem;               //扫码关注时间
+            $sub_time = $xml->CreateTime;               //扫码关注时间
 
 
             echo 'openid:' . $openid;
@@ -81,7 +81,7 @@ class WeixinController extends Controller{
             $token=$data['access_token'];
             Redis::set($this->redis_weixin_access_token,$token);
             Redis::setTimeout($this->redis_weixin_access_token,3600);
-            
+
         }
 
         return $token;
