@@ -54,7 +54,7 @@ class WeixinController extends Controller{
                 $user_data = [
                     'openid' => $openid,
                     'add_time' => time(),
-                    'nickname' =>$user_info['nickname'],
+                    "nickname"=>$user_info["nickname"],
                     'sex' => $user_info['sex'],
                     'headimgurl' => $user_info['headimgurl'],
                     'subscribe_time' => $sub_time,
