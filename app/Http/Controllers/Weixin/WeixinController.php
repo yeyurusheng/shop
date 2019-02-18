@@ -59,8 +59,9 @@ class WeixinController extends Controller{
                     'headimgurl' => $user_info['headimgurl'],
                     'subscribe_time' => $sub_time,
                 ];
+                var_dump($user_data);exit;
                 $id = WeixinUser::insertGetId($user_data);    //保存用户信息
-                var_dump($id);
+                //var_dump($id);
             }
         }
         $log_str=date('Y-m-d H:i:s')."\n".$data."\n<<<<<<";
