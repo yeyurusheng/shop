@@ -6,6 +6,8 @@ use App\Model\WeixinUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Redis;
+
 class WeixinController extends Controller{
     protected $redis_weixin_access_token = 'str:weixin_access_token';
 
@@ -80,6 +82,7 @@ class WeixinController extends Controller{
             Redis::set($this->redis_weixin_access_token,$token);
             Redis::setTimeout($this->redis_weixin_access_token,3600);
         }
+
         return $token;
     }
     /**
