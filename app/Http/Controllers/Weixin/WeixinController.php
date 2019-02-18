@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 
 class WeixinController extends Controller{
-    protected $redis_weixin_access_token = 'str:weixin_access_token';
+    protected $redis_weixin_access_token = 'str:weixin_access_tokenwei';
 
     public function test()
     {
