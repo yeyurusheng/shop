@@ -90,10 +90,11 @@ class WeixinController extends Controller{
      * 获取用户信息
      */
     public function getUserInfo($openid){
-        $openid='wxc28bbb4fa8c63d2b';
+        //$openid='wxc28bbb4fa8c63d2b';
         $access_token=$this->getWXAccessToken();
         $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'openid='.$openid.'&lang=zh_CN';
         $data=json_decode(file_get_contents($url),true);
-        echo '<pre>';print_r($data);echo'</pre>';
+        //echo '<pre>';print_r($data);echo'</pre>';
+        return $data;
     }
 }
