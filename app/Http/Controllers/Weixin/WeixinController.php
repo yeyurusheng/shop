@@ -109,14 +109,15 @@ class WeixinController extends Controller{
         $client = new GuzzleHttp\Client(['base_uri' => $url]);
         $data=[
             "button"    =>[
-                "type"=>"view",      //view类型 跳转指定
-                "name"=>"wei",
-                "url" =>"https://www.baidu.com"
-            ],
-            [
-                "type"  =>  "click",
-                "name"  =>  "客服",
-                "key"   =>  "kefu"
+                [   "type"=>"view",      //view类型 跳转指定
+                    "name"=>"wei",
+                    "url" =>"https://www.baidu.com"
+                ],
+                [
+                    "type"  =>  "click",
+                    "name"  =>  "客服",
+                    "key"   =>  "kefu"
+                ]
             ]
         ];
         $body = json_encode($data,JSON_UNESCAPED_UNICODE);    //处理中文编码
