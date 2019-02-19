@@ -104,7 +104,8 @@ Route::post('/update','Login\LoginController@pwdUpdate');
 //微信
 Route::get('weixin/test','Weixin\WeixinController@test');
 Route::get('weixin/valid','Weixin\WeixinController@validToken');
-Route::post('weixin/valid','Weixin\WeixinController@wxEvent');
+Route::post('weixin/valid','Weixin\WeixinController@wxEvent');  //接受微信推送事件
+Route::get('weixin/create_menu','Weixin\WeixinController@creteMenu');  //创建菜单
 
 
 
