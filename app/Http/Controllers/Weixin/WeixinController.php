@@ -114,14 +114,20 @@ class WeixinController extends Controller{
                 "url" =>"https://www.baidu.com"
             ]
         ];
-        $r=$client->request('POST',$url,['body'=>json_encode($data)]);
+        $r = $client->request('POST', $url, [
+            'body' => $body
+        ]);
         // 解析微信接口返回信息
-        $response_arr=json_decode($r->getBody(),true);
-        if($response_arr['errcode']==0){
+        $response_arr = json_decode($r->getBody(),true);
+        //echo '<pre>';print_r($response_arr);echo '</pre>';
+
+        if($response_arr['errcode'] == 0){
             echo "菜单创建成功";
         }else{
-            echo "菜单创建失败，请重试";
+            echo "菜单创建失败，请重试";echo '</br>';
             echo $response_arr['errmsg'];
+
         }
+
     }
 }
