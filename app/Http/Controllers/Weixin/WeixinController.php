@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Weixin;
 
 use App\Model\WeixinUser;
+use http\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -96,5 +97,31 @@ class WeixinController extends Controller{
         $data = json_decode(file_get_contents($url),true);
         //echo '<pre>';print_r($data);echo'</pre>';
         return $data;
+    }
+    /**
+     * 创建服务号菜单
+     */
+    public function createMenu(){
+        //获取access_token拼接请求接口
+        $access_token=$this->getWXAccessToken();
+        $url=' https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN='.$access_token;
+        //请求微信接口
+        $client=new GuzzleHttp\Client(['base_uri'=> $url]);
+        $data=[
+            'button'    =>[
+                "type"=>"view",      //view类型 跳转指定
+                "name"=>"wei",
+                "url" =>"https://www.baidu.com"
+            ]
+        ];
+        $r=$client->request('POST',$url,['body'=>json_encode($data)]);
+        // 解析微信接口返回信息
+        $response_arr=json_decode($r->getBody(),true);
+        if($response_arr['errcode']==0){
+            echo "菜单创建成功";
+        }else{
+            echo "菜单创建失败，请重试";
+            echo $response_arr['errmsg'];
+        }
     }
 }
