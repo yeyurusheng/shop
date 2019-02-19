@@ -33,9 +33,8 @@ class WeixinController extends Controller{
         $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
         //var_dump($xml);exit;
         $event = $xml->Event;               //事件类型
-
+        $openid = $xml->FromUserName;               //用户openid
         if($event=='subscribe') {
-            $openid = $xml->FromUserName;               //用户openid
             $sub_time = $xml->CreateTime;               //扫码关注时间
 
 
@@ -63,9 +62,22 @@ class WeixinController extends Controller{
                 $id = WeixinUser::insertGetId($user_data);    //保存用户信息
                 var_dump($id);
             }
+        }elseif($event=='CLICK'){
+            if($xml->EventKey=='kefu'){
+                $this->kefu($openid,$xml->ToUserName);
+            }
         }
         $log_str=date('Y-m-d H:i:s')."\n".$data."\n<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
+    }
+
+    /**
+     * 客服处理
+     */
+    public function kefu($openid,$from){
+        //文本信息
+        $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$from.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. '欢迎来到这里, 现在是北京时间'. date('Y-m-d H:i:s') .']]></Content></xml>';
+        echo $xml_response;
     }
 
     /**
