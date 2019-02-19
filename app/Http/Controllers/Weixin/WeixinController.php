@@ -6,7 +6,7 @@ use App\Model\WeixinUser;
 use http\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use GuzzleHttp;
 use Illuminate\Support\Facades\Redis;
 
 class WeixinController extends Controller{
