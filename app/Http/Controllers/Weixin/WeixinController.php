@@ -79,6 +79,7 @@ class WeixinController extends Controller{
      */
     public function dlVoice($media_id){
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
+        echo $url ;
         //保存图片
         $client = new GuzzleHttp\Client();
         $response = $client->get($url);
@@ -89,8 +90,10 @@ class WeixinController extends Controller{
         //保存语音
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){   //保存成功
+            echo '保存成功';
             return true;
         }else{   //保存失败
+            echo '保存失败';
             return false;
         }
 
