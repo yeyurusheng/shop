@@ -65,11 +65,11 @@ class WeixinController extends Controller{
         $res=Storage::disk('local')->put($WxImageSavePath,$response->getBody());
         if($res){
             //保存成功
-            echo '保存图片成功';
+            //echo '保存图片成功';
             return true;
         }else{
             //保存失败
-            echo '保存图片失败';
+            //echo '保存图片失败';
             return false;
         }
     }
@@ -90,10 +90,10 @@ class WeixinController extends Controller{
         //保存语音
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){   //保存成功
-            echo '保存成功';
+            //echo '保存成功';
             return true;
         }else{   //保存失败
-            echo '保存失败';
+            //echo '保存失败';
             return false;
         }
 
