@@ -54,6 +54,7 @@ class WeixinController extends Controller{
         $access_token = $this->getWXAccessToken();
         //拼接下载图片的URL
         $url='https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$access_token.'&media_id='.$media_id;
+        echo $url;
         //使用GuzzleHttp下载文件
         $response = $client->get($url);
         //获取文件名称
@@ -65,13 +66,13 @@ class WeixinController extends Controller{
         $res=Storage::disk('local')->put($WxImageSavePath,$response->getBody());
         if($res){
             //保存成功
-            //echo '保存图片成功';
-            return true;
+            echo '保存图片成功';
         }else{
             //保存失败
-            //echo '保存图片失败';
-            return false;
+            echo '保存图片失败';
         }
+
+        return $file_name;
     }
 
     /**
@@ -108,6 +109,7 @@ class WeixinController extends Controller{
         $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
         //var_dump($xml);exit;
 
+        //记录日志
         $log_str=date('Y-m-d H:i:s')."\n".$data."\n<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
 
@@ -121,15 +123,18 @@ class WeixinController extends Controller{
                 $msg = $xml->Content;
                 $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
                 echo $xml_response;
+                //echo '文本';
             }elseif($xml->MsgType=='image'){   //用户发送图片信息
                 //判断是否需要保存图片信息
                 if(1){   //下载图片信息
                     $this->dwImage($xml->MediaId);
                     $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
+                    //echo '图片1';
                 }
             }elseif($xml->MsgType=='voice'){   //处理语音文件
                 $this->dlVoice($xml->MediaId);
+                //echo '语音';
             }elseif($xml->MsgType=='event'){   //处理事件类型
                 if($event=='subscribe'){       //扫码关注事件
                     $sub_time = $xml->CreateTime;    //扫码关注时间
@@ -149,6 +154,8 @@ class WeixinController extends Controller{
                             'subscribe_time' => $sub_time,
                         ];
                     }
+                    $id = WeixinUser::insertGetId($user_data);      //保存用户信息
+
                 }elseif($event=='CLICK'){
                     if($xml->EventKey=='kefu'){
                         $this->kefu($openid,$xml->ToUserName);
@@ -196,7 +203,7 @@ class WeixinController extends Controller{
         $access_token = $this->getWXAccessToken();
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         $data = json_decode(file_get_contents($url),true);
-        echo '<pre>';print_r($data);echo'</pre>';
+        //echo '<pre>';print_r($data);echo'</pre>';
         return $data;
     }
     /**

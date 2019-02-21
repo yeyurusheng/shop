@@ -104,9 +104,9 @@ Route::post('/update','Login\LoginController@pwdUpdate');
 //微信
 Route::get('weixin/token','Weixin\WeixinController@refreshToken');  //刷新token
 Route::get('weixin/valid','Weixin\WeixinController@validToken');
-Route::post('weixin/valid','Weixin\WeixinController@validToken');
+Route::post('weixin/valid1','Weixin\WeixinController@validToken');
 Route::get('weixin/valid1','Weixin\WeixinController@validToken1');   //接受微信服务器推送事件
-Route::post('weixin/valid1','Weixin\WeixinController@wxEvent');
+Route::post('weixin/valid','Weixin\WeixinController@wxEvent');
 Route::get('weixin/create_menu','Weixin\WeixinController@createMenu');    //创建菜单
 
 
