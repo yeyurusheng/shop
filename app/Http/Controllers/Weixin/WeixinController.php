@@ -66,10 +66,12 @@ class WeixinController extends Controller{
         $res=Storage::disk('local')->put($WxImageSavePath,$response->getBody());
         if($res){
             //保存成功
-            echo '保存图片成功';
+            //echo '保存图片成功';
+            return true;
         }else{
             //保存失败
-            echo '保存图片失败';
+            //echo '保存图片失败';
+            return false;
         }
 
         return $file_name;
@@ -80,7 +82,7 @@ class WeixinController extends Controller{
      */
     public function dlVoice($media_id){
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
-        echo $url ;
+        //echo $url ;
         //保存图片
         $client = new GuzzleHttp\Client();
         $response = $client->get($url);
@@ -89,14 +91,13 @@ class WeixinController extends Controller{
         $file_name = substr(rtrim($file_info[0],'"'),-20);
         $wx_image_path = 'wx/voice/'.$file_name;
         //保存语音
-        $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
-        if($r){   //保存成功
-            //echo '保存成功';
-            return true;
+        $res = Storage::disk('local')->put($wx_image_path,$response->getBody());
+        if($res){   //保存成功
+            echo '保存语音成功';
         }else{   //保存失败
-            //echo '保存失败';
-            return false;
+            echo '保存语音失败';
         }
+
 
     }
 
@@ -134,7 +135,7 @@ class WeixinController extends Controller{
                 }
             }elseif($xml->MsgType=='voice'){   //处理语音文件
                 $this->dlVoice($xml->MediaId);
-                //echo '语音';
+                echo '语音';
             }elseif($xml->MsgType=='event'){   //处理事件类型
                 if($event=='subscribe'){       //扫码关注事件
                     $sub_time = $xml->CreateTime;    //扫码关注时间
@@ -143,7 +144,7 @@ class WeixinController extends Controller{
                     //保存用户信息
                     $u = WeixinUser::where(['openid'=>$openid])->first();
                     if($u){     //用户不存在
-                        echo '用户不存在';
+                        echo '用户已存在';
                     }else{
                         $user_data = [
                             'openid' => $openid,
