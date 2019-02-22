@@ -54,7 +54,7 @@ class WeixinController extends Controller{
         $access_token = $this->getWXAccessToken();
         //拼接下载图片的URL
         $url='https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$access_token.'&media_id='.$media_id;
-        echo $url;
+        //echo $url;
         //使用GuzzleHttp下载文件
         $response = $client->get($url);
         //获取文件名称
@@ -73,8 +73,6 @@ class WeixinController extends Controller{
             //echo '保存图片失败';
             return false;
         }
-
-        return $file_name;
     }
 
     /**
@@ -83,22 +81,21 @@ class WeixinController extends Controller{
     public function dlVoice($media_id){
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
         //echo $url ;
-        //保存图片
+        //保存语音
         $client = new GuzzleHttp\Client();
         $response = $client->get($url);
+        //var_dump($response);
         //获取文件名
-        $file_info = $response->getHeader('Content-disposition');
+        $file_info=$response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
-        $wx_image_path = 'wx/voice/'.$file_name;
+        $wx_voice_path = 'wx/voice/'.$file_name;
         //保存语音
-        $res = Storage::disk('local')->put($wx_image_path,$response->getBody());
-        if($res){   //保存成功
-            echo '保存语音成功';
-        }else{   //保存失败
-            echo '保存语音失败';
+        $res=Storage::disk('local')->put($wx_voice_path,$response->getBody());
+        if($res){
+            return true;
+        }else{
+            return false;
         }
-
-
     }
 
     /**
@@ -124,6 +121,7 @@ class WeixinController extends Controller{
                 $msg = $xml->Content;
                 $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
                 echo $xml_response;
+
                 //echo '文本';
             }elseif($xml->MsgType=='image'){   //用户发送图片信息
                 //判断是否需要保存图片信息
