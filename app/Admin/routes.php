@@ -13,4 +13,18 @@ Route::group([
     $router->get('/', 'HomeController@index');
 
     $router->resource('/goods',GoodsController::class);
+    $router->resource('/wx_users',WeixinController::class);     //微信用户
+    $router->resource('/wx_media',WeixinMediaController::class);
 });
+
+
+
+
+
+
+
+
+
+
+
+

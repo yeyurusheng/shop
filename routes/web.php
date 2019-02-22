@@ -102,12 +102,27 @@ Route::post('/update','Login\LoginController@pwdUpdate');
 
 
 //微信
-Route::get('weixin/token','Weixin\WeixinController@refreshToken');  //刷新token
+Route::get('weixin/token','Weixin\WeixinController@refreshToken');              //刷新token
 Route::get('weixin/valid','Weixin\WeixinController@validToken');
-Route::post('weixin/valid1','Weixin\WeixinController@validToken');
-Route::get('weixin/valid1','Weixin\WeixinController@validToken1');   //接受微信服务器推送事件
 Route::post('weixin/valid','Weixin\WeixinController@wxEvent');
-Route::get('weixin/create_menu','Weixin\WeixinController@createMenu');    //创建菜单
+Route::get('weixin/valid1','Weixin\WeixinController@validToken1');               //接受微信服务器推送事件
+Route::post('weixin/valid1','Weixin\WeixinController@validToken');
+
+Route::get('weixin/create_menu','Weixin\WeixinController@createMenu');           //创建菜单
+
+Route::get('weixin/group','Weixin\WeixinController@massText');                   // 群发
+
+//微信素材
+//Route::get('weixin/material/upload','Weixin\WeixinController@upMaterial');      //上传素材
+Route::post('/weixin/material','Weixin\WeixinController@materialTest');
+Route::get('weixin/form','Weixin\WeixinController@formShow');                   //素材上传表单
+Route::post('weixin/test','Weixin\WeixinController@formTest');
+Route::get ('weixin/material/list','Weixin\WeixinController@materialList');    //获取永久素材
+
+Route::post('weixin/private','Weixin\WeixinController@privateChat');
+
+
+
 
 
 
