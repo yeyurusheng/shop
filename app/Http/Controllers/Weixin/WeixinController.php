@@ -238,13 +238,12 @@ class WeixinController extends Controller{
                     "name"  =>  "客服",
                     "key"   =>  "kefu"
                 ],
-                //二级菜单
                 [
-                    "name"  => "菜单",
+                    "name"  => '菜单',
                     "sub_button"  => [
-                        'type'  => 'view',
-                        'name'  => '你好',
-                        "key"   => 'https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E9%BB%84%E5%AD%90%E9%9F%AC&oq=%25E9%25BB%2584%25E5%25AD%2590%25E9%259F%25AC&rsv_pq=a9df48990003922c&rsv_t=4130pW7wxc25oWZfkwskOwiycW9BUq1zChsRjTbmMwmJSUyF7s65ioOQHHM&rqlang=cn&rsv_enter=0&prefixsug=%25E9%25BB%2584%25E5%25AD%2590%25E9%259F%25AC&rsp=0'
+                        "type"=>"view",      //view类型 跳转指定
+                        "name"=>"wei",
+                        "url" =>"https://www.baidu.com"
                     ]
                 ]
             ]
