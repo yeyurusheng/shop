@@ -146,7 +146,7 @@ class WeixinController extends Controller{
                 }
             }elseif($xml->MsgType=='voice'){   //处理语音文件
                 $this->dlVoice($xml->MediaId);
-                echo '语音';
+                //echo '语音';
             }elseif($xml->MsgType=='event'){   //处理事件类型
                 if($event=='subscribe'){       //扫码关注事件
                     $sub_time = $xml->CreateTime;    //扫码关注时间
@@ -241,9 +241,18 @@ class WeixinController extends Controller{
                 [
                     "name"  => '菜单',
                     "sub_button"  => [
-                        "type"=>"view",      //view类型 跳转指定
-                        "name"=>"wei",
-                        "url" =>"https://www.baidu.com"
+                        [
+                            "type"=>"view",      //view类型 跳转指定
+                            "name"=>"黄子韬",
+                            "url" =>"https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E9%BB%84%E5%AD%90%E9%9F%AC&oq=%25E9%25BB%2584%25E5%25AD%2590%25E9%259F%25AC&rsv_pq=a9df48990003922c&rsv_t=4130pW7wxc25oWZfkwskOwiycW9BUq1zChsRjTbmMwmJSUyF7s65ioOQHHM&rqlang=cn&rsv_enter=0&prefixsug=%25E9%25BB%2584%25E5%25AD%2590%25E9%259F%25AC&rsp=0"
+                        ]
+                    ],
+                    "sub_button"  => [
+                        [
+                            "type"=>"view",      //view类型 跳转指定
+                            "name"=>"你好",
+                            "url" =>"https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013"
+                        ]
                     ]
                 ]
             ]
