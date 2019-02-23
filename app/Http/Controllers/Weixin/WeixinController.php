@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Weixin;
 
+use App\Model\WeixinMedia;
 use App\Model\WeixinUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -67,12 +68,13 @@ class WeixinController extends Controller{
         if($res){
             //保存成功
             //echo '保存图片成功';
-            return true;
+
         }else{
             //保存失败
             //echo '保存图片失败';
-            return false;
         }
+        return $file_name;
+
     }
 
     /**
@@ -92,10 +94,12 @@ class WeixinController extends Controller{
         //保存语音
         $res=Storage::disk('local')->put($wx_voice_path,$response->getBody());
         if($res){
-            return true;
+
         }else{
-            return false;
+
         }
+        return $file_name;
+
     }
 
     /**
@@ -126,10 +130,22 @@ class WeixinController extends Controller{
             }elseif($xml->MsgType=='image'){   //用户发送图片信息
                 //判断是否需要保存图片信息
                 if(1){   //下载图片信息
-                    $this->dwImage($xml->MediaId);
+                    //echo $file_name;exit;
+                    $Media_id=$this->dwImage($xml->MediaId);
                     $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
-                    //echo '图片1';
+                    //写入数据库
+                    $data=[
+                        'openid'   =>$openid,
+                        'add_time' =>time(),
+                        'msg_type' =>'image',
+                        'media_id' =>$xml->MediaId,
+                        'format'   =>$xml->Format,
+                        'msg_id'   =>$xml->MsgId,
+                        'local_file_name' => $Media_id,
+                        'local_file_path' => '/data/wwwroot/shop/storage/app/wx/image/'.$Media_id,
+                    ];
+                    WeixinMedia::insertGetId($data);
                 }
             }elseif($xml->MsgType=='voice'){   //处理语音文件
                 $this->dlVoice($xml->MediaId);

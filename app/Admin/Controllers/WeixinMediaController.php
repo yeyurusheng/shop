@@ -89,8 +89,9 @@ class WeixinMediaController extends Controller
         $grid->format('Format');
         $grid->msg_id('Msg id');
         $grid->local_file_name('Local file name');
-        $grid->local_file_path('Local file path');
-
+        $grid->local_file_path('Local file path')->display(function($img_url){
+            return '<img src="'.$img_url.'">';
+        });
         return $grid;
     }
 
