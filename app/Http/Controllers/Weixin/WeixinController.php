@@ -82,23 +82,20 @@ class WeixinController extends Controller{
      */
     public function dlVoice($media_id){
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
-        //echo $url ;
-        //保存语音
+        //保存图片
         $client = new GuzzleHttp\Client();
         $response = $client->get($url);
-        //var_dump($response);
         //获取文件名
-        $file_info=$response->getHeader('Content-disposition');
+        $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
-        $wx_voice_path = 'wx/voice/'.$file_name;
-        //保存语音
-        $res=Storage::disk('local')->put($wx_voice_path,$response->getBody());
-        if($res){
-
-        }else{
-
+        $wx_image_path = 'wx/voice/'.$file_name;
+        //保存图片
+        $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
+        if($r){     //保存成功
+            return true;
+        }else{      //保存失败
+            return false;
         }
-        return $file_name;
 
     }
 
