@@ -265,7 +265,10 @@ class WeixinController extends Controller{
         //echo $access_token;exit;
         $url='https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token='.$access_token;
         //echo $url ;exit;
+        //var_dump(new GuzzleHttp\Client());exit;
         $client=new GuzzleHttp\Client(['base_uri'=>$url]);
+
+
         $data=[
             "filter"=>[
             "is_to_all"=>true, //用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户，选择false可根据tag_id发送给指定群组的用户

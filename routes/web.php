@@ -110,7 +110,7 @@ Route::post('weixin/valid1','Weixin\WeixinController@validToken');
 
 Route::get('weixin/create_menu','Weixin\WeixinController@createMenu');           //创建菜单
 
-Route::get('weixin/group','Weixin\WeixinController@massText');                   // 群发
+Route::get('weixin/mass','Weixin\WeixinController@massText');                   // 群发
 
 //微信素材
 //Route::get('weixin/material/upload','Weixin\WeixinController@upMaterial');      //上传素材
