@@ -119,7 +119,9 @@ Route::get('weixin/form','Weixin\WeixinController@formShow');                   
 Route::post('weixin/test','Weixin\WeixinController@formTest');
 Route::get ('weixin/material/list','Weixin\WeixinController@materialList');    //获取永久素材
 
-Route::post('weixin/private','Weixin\WeixinController@privateChat');
+//微信聊天
+Route::get('/weixin/kefu/service','Weixin\WeixinController@chatView');     //客服聊天
+Route::get('/weixin/chat/get_msg','Weixin\WeixinController@getChatMsg');     //获取用户聊天信息
 
 
 

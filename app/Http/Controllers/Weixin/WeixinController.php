@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Weixin;
 
 use App\Model\WeixinMedia;
+use App\Model\WeixinService;
 use App\Model\WeixinUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -119,9 +120,17 @@ class WeixinController extends Controller{
         //处理用户发送信息
         if(isset($xml->MsgType)){
             if($xml->MsgType=='text'){   //用户发送文本信息
-                $msg = $xml->Content;
-                $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
-                echo $xml_response;
+                //记录聊天信息
+                $data=[
+                    'msg'       =>$xml->Content,
+                    'msgid'     =>$xml->MsgId,
+                    'openid'    =>$openid,
+                    'msg_type'  =>1
+                ];
+                $id = WeixinService::insertGetId($data);
+                var_dump($id);
+
+
 
                 //echo '文本';
             }elseif($xml->MsgType=='image'){   //用户发送图片信息
@@ -245,15 +254,13 @@ class WeixinController extends Controller{
                             "type"=>"view",      //view类型 跳转指定
                             "name"=>"黄子韬",
                             "url" =>"https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E9%BB%84%E5%AD%90%E9%9F%AC&oq=%25E9%25BB%2584%25E5%25AD%2590%25E9%259F%25AC&rsv_pq=a9df48990003922c&rsv_t=4130pW7wxc25oWZfkwskOwiycW9BUq1zChsRjTbmMwmJSUyF7s65ioOQHHM&rqlang=cn&rsv_enter=0&prefixsug=%25E9%25BB%2584%25E5%25AD%2590%25E9%259F%25AC&rsp=0"
-                        ]
-                    ],
-                    "sub_button"  => [
+                        ],
                         [
                             "type"=>"view",      //view类型 跳转指定
                             "name"=>"你好",
                             "url" =>"https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013"
                         ]
-                    ]
+                    ],
                 ]
             ]
         ];
@@ -289,7 +296,7 @@ class WeixinController extends Controller{
               "tag_id"=>2
            ],
            "text"=>[
-                    "content"=>"欢迎来到"
+                    "content"=>"wei"
            ],
             "msgtype"=>"text"
 
@@ -315,7 +322,7 @@ class WeixinController extends Controller{
             'multipart' => [
                 [
                     'name' => 'username',
-                    'contents' => 'wei',
+                    'contents' => "wang",
                 ],
                 [
                     'name'  => 'media',
@@ -418,7 +425,7 @@ class WeixinController extends Controller{
     /**
      * 私聊
      */
-    public function privateChat(){
+    /*public function privateChat(){
         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$this->getWXAccessToken();
         $client = new GuzzleHttp\Client();
         $body = [
@@ -432,5 +439,39 @@ class WeixinController extends Controller{
             'body'=>json_decode($body)
         ]);
         echo $body;echo '<hr>';
+    }*/
+    /**
+     * 微信客服聊天
+     */
+    public function chatView()
+    {
+        $data = [
+            'openid'    => 'oJoCw55uKFmyNfrTx4VRar79kjyw'
+        ];
+        return view('weixin.service',$data);
     }
+
+    public function getChatMsg()
+    {
+        $openid = $_GET['openid'];  //用户openid
+        $pos = $_GET['pos'];        //上次聊天位置
+        $msg = WeixinService::where(['openid'=>$openid])->where('id','>',$pos)->first();    //查询数据库中第一条的聊天信息
+        if($msg){
+            $response = [
+                'errno' => 0,
+                'data'  => $msg->toArray()
+            ];
+
+        }else{
+            $response = [
+                'errno' => 50001,
+                'msg'   => '服务器异常，请联系管理员'
+            ];
+        }
+
+        die( json_encode($response));
+
+    }
+
+
 }

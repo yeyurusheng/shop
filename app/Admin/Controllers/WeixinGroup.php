@@ -36,11 +36,13 @@ class WeixinGroup extends Controller
      *  获取access_token
      */
     public function getWxAccessToken(){
+
         $token = Redis::get($this->redis_weixin_access_token);
         if(!$token){
             //无缓存 请求微信接口
             $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WEIXIN_APPID').'&secret='.env('WEIXIN_APPSECRET');
             $data = json_decode(file_get_contents($url),true);
+
             //记录缓存
             $token=$data['access_token'];
             Redis::set($this->redis_weixin_access_token,$token);
@@ -48,9 +50,12 @@ class WeixinGroup extends Controller
         }
     }
     public function groupText(Request $request){
+
         $text = $request->input('group');
+
         //获取access_token
         $access_token = $this->getWxAccessToken();
+
         //请求群发接口
         $url='https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token='.$access_token;
         $client=new GuzzleHttp\Client(['base_uri'=>$url]);
@@ -66,7 +71,8 @@ class WeixinGroup extends Controller
 
         ];
         $body = json_encode($data,JSON_UNESCAPED_UNICODE);    //处理中文编码
-        $res = $client->request('post',$url,['body'=>$body]);
+
+        $res = $client->request('POST',$url,['body'=>$body]);
         //解析返回的信息
         $response_arr = json_decode($res->getBody(),true);
         if($response_arr['errcode']==0){
