@@ -446,7 +446,7 @@ class WeixinController extends Controller{
     public function chatView()
     {
         $data = [
-            'openid'    => 'oJoCw5-s6ZO-Kb0b0N2ngRubPukg	'
+            'openid'    => 'oJoCw55uKFmyNfrTx4VRar79kjyw'
         ];
         return view('weixin.service',$data);
     }
@@ -455,7 +455,8 @@ class WeixinController extends Controller{
     {
         $openid = $_GET['openid'];  //用户openid
         $pos = $_GET['pos'];        //上次聊天位置
-        $msg = WeixinService::where(['openid'=>$openid])->where('id','>',$pos)->first();    //查询数据库中第一条的聊天信息
+        $msg = WeixinService::where(['openid'=>$openid])->where('id','>',$pos)->first();      //查询数据库中第一条的聊天信息
+        var_dump($msg);exit;
         if($msg){
             $response = [
                 'errno' => 0,
