@@ -1040,4 +1040,25 @@
 
 <<<<<<<2019-02-25 09:33:18
 
-<<<<<<<
+<<<<<<<2019-02-25 11:14:44
+<xml><ToUserName><![CDATA[gh_eac685a1ff5c]]></ToUserName>
+<FromUserName><![CDATA[oJoCw505tKb-F1dQ2wXxxpTbOej4]]></FromUserName>
+<CreateTime>1551059553</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+
+<<<<<<2019-02-25 11:15:01
+<xml><ToUserName><![CDATA[gh_eac685a1ff5c]]></ToUserName>
+<FromUserName><![CDATA[oJoCw56eNS6iZnmVajVgVfEXYlbM]]></FromUserName>
+<CreateTime>1551063878</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[你进]]></Content>
+<MsgId>22205894198324908</MsgId>
+</xml>
+
+
+
+<<<<<<
