@@ -10,7 +10,7 @@
         </div>
         <hr>
 
-        <form action="" class="form-inline">
+        <form action="" class="form-inline" >
             <input type="hidden" value="{{$openid}}" id="openid">
             <input type="hidden" value="1" id="msg_pos">
             <textarea name="" id="send_msg" cols="100" rows="5"></textarea>

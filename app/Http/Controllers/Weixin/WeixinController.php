@@ -46,9 +46,7 @@ class WeixinController extends Controller{
         echo $this->getWXAccessToken();
     }
 
-    /**
-     * 下载图片文件
-     */
+    /**下载图片文件*/
     public function dwImage($media_id){
         $client = new GuzzleHttp\Client();
         //echo '<pre>';var_dump($client);echo '</pre>';
@@ -78,9 +76,7 @@ class WeixinController extends Controller{
 
     }
 
-    /**
-     * 下载语音文件
-     */
+    /**下载语音文件*/
     public function dlVoice($media_id){
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
         //保存图片
@@ -100,9 +96,7 @@ class WeixinController extends Controller{
 
     }
 
-    /**
-     * 接收微信服务器事件推送
-     */
+    /** 接收微信服务器事件推送*/
     public function wxEvent(){
         $data = file_get_contents("php://input");
         //解析XML
@@ -125,14 +119,10 @@ class WeixinController extends Controller{
                     'msg'       =>$xml->Content,
                     'msgid'     =>$xml->MsgId,
                     'openid'    =>$openid,
-                    'msg_type'  =>1
+                    'msg_type'  =>1,
+                    'send_time' =>time()
                 ];
                 $id = WeixinService::insertGetId($data);
-                var_dump($id);
-
-
-
-                //echo '文本';
             }elseif($xml->MsgType=='image'){   //用户发送图片信息
                 //判断是否需要保存图片信息
                 if(1){   //下载图片信息
@@ -443,32 +433,68 @@ class WeixinController extends Controller{
     /**
      * 微信客服聊天
      */
-    public function chatView()
+    public function chatView($openid)
     {
         $data = [
-            'openid'    => 'oJoCw55uKFmyNfrTx4VRar79kjyw'
+            'openid'    => $openid
         ];
         return view('weixin.service',$data);
+    }
+    public function getKefuChat(){
+        $openid = $_GET['openid'];  //用户openid
+        $msg = $_GET['send_msg'];
+        $access_token = $this->getWXAccessToken();
+        //echo $access_token;exit;
+        $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;
+        //echo $url ;exit;
+        //var_dump(new GuzzleHttp\Client());exit;
+        $client=new GuzzleHttp\Client(['base_uri'=>$url]);
+
+
+        $data=[
+            "touser"=>$openid,
+            "msgtype"=>"text",
+            "text"=>
+            [
+                "content"=>$msg
+            ]
+
+        ];
+
+
+
+
+
+        $body = json_encode($data,JSON_UNESCAPED_UNICODE);    //处理中文编码
+        $res = $client->request('post',$url,['body'=>$body]);
+        //解析返回的信息
+        $response_arr = json_decode($res->getBody(),true);
+        $id=[
+            'msg'       =>$msg,
+            'openid'    =>$openid,
+            'msg_type'  =>2,
+            'send_time' =>time()
+        ];
+        $i = WeixinService::insertGetId($id);
+
     }
 
     public function getChatMsg()
     {
         $openid = $_GET['openid'];  //用户openid
         $pos = $_GET['pos'];        //上次聊天位置
-        $msg = WeixinService::where(['openid'=>$openid])->where('id','>',$pos)->first();      //查询数据库中第一条的聊天信息
+        $msg = WeixinService::where(['openid'=>$openid])->where('id','>',$pos)->orderBy('send_time','des')->where(['msg_type'=>'1'])->first();      //查询数据库中第一条的聊天信息
         if($msg){
             $response = [
                 'errno' => 0,
                 'data'  => $msg->toArray()
             ];
-
         }else{
             $response = [
                 'errno' => 50001,
                 'msg'   => '服务器异常，请联系管理员'
             ];
         }
-
         die( json_encode($response));
 
     }

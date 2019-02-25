@@ -1078,4 +1078,32 @@
 <MsgId>22205920057724131</MsgId>
 </xml>
 
+<<<<<<2019-02-25 11:57:18
+<xml><ToUserName><![CDATA[gh_eac685a1ff5c]]></ToUserName>
+<FromUserName><![CDATA[oJoCw55uKFmyNfrTx4VRar79kjyw]]></FromUserName>
+<CreateTime>1551066931</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[你好]]></Content>
+<MsgId>22205941066810601</MsgId>
+</xml>
+<<<<<<2019-02-25 12:30:45
+<xml><ToUserName><![CDATA[gh_eac685a1ff5c]]></ToUserName>
+<FromUserName><![CDATA[oJoCw505tKb-F1dQ2wXxxpTbOej4]]></FromUserName>
+<CreateTime>1551068920</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[你提]]></Content>
+<MsgId>22205965964962271</MsgId>
+</xml>
+
+<<<<<<2019-02-25 13:13:54
+
+<<<<<<2019-02-25 13:13:58
+<xml><ToUserName><![CDATA[gh_eac685a1ff5c]]></ToUserName>
+<FromUserName><![CDATA[oJoCw505tKb-F1dQ2wXxxpTbOej4]]></FromUserName>
+<CreateTime>1551071149</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[还有]]></Content>
+<MsgId>22206000801882791</MsgId>
+</xml>
+
 <<<<<<

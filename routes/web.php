@@ -120,8 +120,10 @@ Route::post('weixin/test','Weixin\WeixinController@formTest');
 Route::get ('weixin/material/list','Weixin\WeixinController@materialList');    //获取永久素材
 
 //微信聊天
-Route::get('/weixin/kefu/service','Weixin\WeixinController@chatView');     //客服聊天
+Route::get('/weixin/kefu/service/{openid}','Weixin\WeixinController@chatView');     //客服聊天
 Route::get('/weixin/chat/get_msg','Weixin\WeixinController@getChatMsg');     //获取用户聊天信息
+
+Route::get('/weixin/kefu/service','Weixin\WeixinController@getKefuChat');     //获取客服聊天信息
 
 
 
