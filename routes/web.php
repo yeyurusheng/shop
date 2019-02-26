@@ -126,6 +126,10 @@ Route::get('/weixin/chat/get_msg','Weixin\WeixinController@getChatMsg');     //�
 Route::get('/weixin/kefu/service','Weixin\WeixinController@getKefuChat');     //获取客服聊天信息
 
 
+//微信支付
+Route::get('weixin/pay/test','Weixin\WeixinPayController@test');       //微信支付测试
+Route::post('/weixin/pay/notice','Weixin\WeixinPayController@notice');     //微信支付通知回调
+
 
 
 
