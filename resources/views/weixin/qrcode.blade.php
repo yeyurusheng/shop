@@ -10,6 +10,24 @@
     <script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="/js/weixin/qrcode.min.js"></script>
     <script>
+        var order_sn = $('#order_sn').val()
+        setInterval(function(){
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url     :   '/weixin/pay/success',
+                type    :   'get',
+                data    :   {order_sn:order_sn},
+                success :   function(res){
+                    console.log(res)
+                    if(res){
+                        alert('支付成功')
+                        location.href="/goods/list"
+                    }
+                }
+            });
+        },5000);
 
         var code_url = $('#qr').val();
         console.log(code_url)

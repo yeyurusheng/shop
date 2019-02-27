@@ -232,8 +232,12 @@ class WeixinPayController extends Controller
     }
 
     /** 支付成功 */
-    public function success($order_sn){
-        echo 'zhifuchenggong';
+    public function success(){
+        $order_sn=$_GET['order_sn'];
+        $status = OrderModel::where(['order_sn'=>$order_sn])->where(['status'=>2])->first();
+        if($status !== null){
+            echo 1;
+        }
     }
 
 }
