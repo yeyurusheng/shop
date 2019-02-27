@@ -27,7 +27,7 @@ class WeixinPayController extends Controller
             'mch_id'        =>  env('WEIXIN_MCH_ID'),       // 商户ID
             'nonce_str'     => str_random(16),             // 随机字符串
             'sign_type'     => 'MD5',
-            'body'          => '测试订单-'.mt_rand(1111,9999) . str_random(6),
+            'body'          => '测试订单王梦薇',
             'out_trade_no'  => $order_sn,                       //本地订单号
             'total_fee'     => $total_fee,
             'spbill_create_ip'  => $_SERVER['REMOTE_ADDR'],     //客户端IP
@@ -61,7 +61,8 @@ class WeixinPayController extends Controller
         //将 code_url 返回给前端，前端生成 支付二维码
         $code_url = $data->code_url;
         $info =[
-            'code_url' => $code_url
+            'code_url' => $code_url,
+            'order_sn' => $order_sn
         ];
         return view('weixin.qrcode',$info);
     }
@@ -216,16 +217,23 @@ class WeixinPayController extends Controller
             $data = file_get_contents("php://input");
 
             //记录日志
-            $log_str = date('Y-m-d H:i:s') . "\n" . $data ."success". "\n<<<<<<<";
+            $log_str = date('Y-m-d H:i:s') ."success". "\n<<<<<<<";
             file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
+            echo "订单支付成功";
         }else{
             $data = file_get_contents("php://input");
 
             //记录日志
-            $log_str = date('Y-m-d H:i:s') . "\n" . $data ."false". "\n<<<<<<<";
+            $log_str = date('Y-m-d H:i:s') . "false". "\n<<<<<<<";
             file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
+            echo "订单支付失败";
         }
 
+    }
+
+    /** 支付成功 */
+    public function success($order_sn){
+        echo 'zhifuchenggong';
     }
 
 }

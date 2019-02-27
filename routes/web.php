@@ -130,6 +130,7 @@ Route::get('/weixin/kefu/service','Weixin\WeixinController@getKefuChat');     //
 //微信支付
 Route::get('weixin/pay/test/{order_sn}','Weixin\WeixinPayController@test');       //微信支付测试
 Route::post('/weixin/pay/notice','Weixin\WeixinPayController@notice');     //微信支付通知回调
+Route::get('weixin/pay/success/{order_sn}','Weixin\WeixinPayController@success');       //微信支付测试
 
 
 
