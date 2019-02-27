@@ -131,7 +131,7 @@ class WeixinPayController extends Controller
         return $sign;
     }
 
-
+    /** 签名 */
     private function MakeSign()
     {
         //签名步骤一：按字典序排序参数
@@ -145,6 +145,8 @@ class WeixinPayController extends Controller
         $result = strtoupper($string);
         return $result;
     }
+
+
 
     /**
      * 格式化参数格式化成url参数
@@ -174,14 +176,18 @@ class WeixinPayController extends Controller
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
 
-        $xml = simplexml_load_string($data);
+        $xml = (array)simplexml_load_string($data,'SimpleXMLElement',LIBXML_NOCDATA);
 
-        if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
+
+        if($xml['result_code']=='SUCCESS' && $xml['return_code']=='SUCCESS'){      //微信支付成功回调
             //验证签名
-            $sign = true;
+            $this->values = [];
+            $this->values = $xml;
+            $sign=$this->SetSign();
 
-            if($sign){       //签名验证成功
+            if($sign==$xml['sign']){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
+                $this->upOrder($xml);
 
             }else{
                 //TODO 验签失败
@@ -195,12 +201,31 @@ class WeixinPayController extends Controller
         echo $response;
     }
 
+    /** 处理订单逻辑，修改订单状态 */
+    public function upOrder($xml){
+        $oreder_sn = $xml['out_trade_no'];
+        $info = [
+            'status'        => 2,       //订单状态   1 待支付 2已支付 3已取消
+            'is_pay'        => 1,       //支付状态  0未支付 1已支付
+            'pay_time'      => time(), //支付时间
+            'plat'          => 1,      //平台编号 1支付宝 2微信
+        ];
 
+        $order = OrderModel::where(['order_sn'=>$oreder_sn])->update($info);
+        if($order){
+            $data = file_get_contents("php://input");
 
-    /** 二维码 */
-    public function qr(){
-        $this->notice()->code_url;
-        return view('weixin.qr');
+            //记录日志
+            $log_str = date('Y-m-d H:i:s') . "\n" . $data ."success". "\n<<<<<<<";
+            file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
+        }else{
+            $data = file_get_contents("php://input");
+
+            //记录日志
+            $log_str = date('Y-m-d H:i:s') . "\n" . $data ."false". "\n<<<<<<<";
+            file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
+        }
+
     }
 
 }

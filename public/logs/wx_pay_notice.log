@@ -235,4 +235,42 @@ false
 <transaction_id><![CDATA[4200000257201902274752179660]]></transaction_id>
 </xml>
 
+<<<<<<<2019-02-27 12:03:47
+<xml><appid><![CDATA[wxd5af665b240b75d4]]></appid>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[N]]></is_subscribe>
+<mch_id><![CDATA[1500086022]]></mch_id>
+<nonce_str><![CDATA[ojuZxe9jwu1yjQ8S]]></nonce_str>
+<openid><![CDATA[osZaFw9NLbqqUb26gpTKDNmEDKnQ]]></openid>
+<out_trade_no><![CDATA[1902270951212049016wei]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[CB9908E7F65EDABA0DE954E919A60712]]></sign>
+<time_end><![CDATA[20190227095127]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[NATIVE]]></trade_type>
+<transaction_id><![CDATA[4200000257201902274752179660]]></transaction_id>
+</xml>
+
+<<<<<<<2019-02-27 12:03:47
+<xml><appid><![CDATA[wxd5af665b240b75d4]]></appid>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[N]]></is_subscribe>
+<mch_id><![CDATA[1500086022]]></mch_id>
+<nonce_str><![CDATA[ojuZxe9jwu1yjQ8S]]></nonce_str>
+<openid><![CDATA[osZaFw9NLbqqUb26gpTKDNmEDKnQ]]></openid>
+<out_trade_no><![CDATA[1902270951212049016wei]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[CB9908E7F65EDABA0DE954E919A60712]]></sign>
+<time_end><![CDATA[20190227095127]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[NATIVE]]></trade_type>
+<transaction_id><![CDATA[4200000257201902274752179660]]></transaction_id>
+</xml>
+success
 <<<<<<<

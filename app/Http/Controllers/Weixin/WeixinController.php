@@ -413,24 +413,6 @@ class WeixinController extends Controller{
         echo '<pre>';print_r($arr);echo '</pre>';
     }
     /**
-     * 私聊
-     */
-    /*public function privateChat(){
-        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$this->getWXAccessToken();
-        $client = new GuzzleHttp\Client();
-        $body = [
-            'touser' =>'oJoCw505tKb-F1dQ2wXxxpTbOej4',
-            'msgtype'=>'text',
-            'text'=>[
-                'contents'=>'你好王梦薇'
-            ]
-        ];
-        $response = $client->request('POST',$url,[
-            'body'=>json_decode($body)
-        ]);
-        echo $body;echo '<hr>';
-    }*/
-    /**
      * 微信客服聊天
      */
     public function chatView($openid)

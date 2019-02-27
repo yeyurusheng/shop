@@ -235,16 +235,7 @@ class AlipayController extends Controller
         //header('Refresh:1;url=/order/show');
         echo "订单： ".$_GET['out_trade_no'] . ' 支付成功，正在跳转';
         header('refresh:2;url=/order/list');
-//        echo '<pre>';print_r($_GET);echo '</pre>';die;
-//        //验签 支付宝的公钥
 
-//
-//        //验证交易状态
-////        if($_GET['']){
-////
-////        }
-////
-//
         //处理订单逻辑
         $this->dealOrder($_GET);
     }
