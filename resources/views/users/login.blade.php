@@ -10,7 +10,7 @@
     <title>用户登录</title>
 </head>
 <body>
-    <form action="login" method="post">
+    <form action="melogin" method="post">
         {{csrf_field()}}
         <div class="form-group" style="width:400px;">
             <label for="exampleInputEmail1">姓名</label>

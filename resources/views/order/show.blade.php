@@ -16,7 +16,8 @@
                 <td>{{date('Y-m-d H:i:s',$v['add_time'])}}</td>
                 <td>
                     <a href="/order/cancel/{{$v["order_sn"]}}">取消订单</a>
-                    <a href="/pay/order/{{$v["o_id"]}}">订单支付</a>
+                    <a href="/pay/order/{{$v["o_id"]}}">支付宝支付</a>
+                    <a href="/weixin/pay/test/{{$v["order_sn"]}}">微信支付</a>
                 </td>
             </tr>
             @endif

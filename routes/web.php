@@ -68,6 +68,7 @@ Route::get('/cookie2','Test\TestController@cookieTest2');  //cookie
 Route::get('/order/pay/show','Test\TestController@test');  //guzzlehttp
 
 //购物车 Cart
+
 Route::get('/cart/cart','Cart\CartController@cart')->middleware('check.login'); //购物车展示
 Route::get('/cart/add/{g_id}','Cart\CartController@cartAdd');  //购物车添加
 Route::get('/cart/del/{g_id}','Cart\CartController@cartDel');  //购物车删除
@@ -127,9 +128,9 @@ Route::get('/weixin/kefu/service','Weixin\WeixinController@getKefuChat');     //
 
 
 //微信支付
-Route::get('weixin/pay/test','Weixin\WeixinPayController@test');       //微信支付测试
+Route::get('weixin/pay/test/{order_sn}','Weixin\WeixinPayController@test');       //微信支付测试
 Route::post('/weixin/pay/notice','Weixin\WeixinPayController@notice');     //微信支付通知回调
-
+Route::get('/weixin/pay/qr','Weixin\WeixinPayController@qr');           //微信二维码
 
 
 
