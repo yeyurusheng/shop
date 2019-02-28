@@ -136,6 +136,7 @@ Route::get('weixin/pay/success','Weixin\WeixinPayController@success');       //�
 //微信登录
 Route::get('weixin/login','Weixin\WeixinLoginController@login');            //微信登录页面
 Route::get('weixin/getcode','Weixin\WeixinLoginController@getCode');        //获取code
+Route::get('weixin/weixin','Weixin\WeixinLoginController@weixinLogin');        //获取登录内容
 
 
 

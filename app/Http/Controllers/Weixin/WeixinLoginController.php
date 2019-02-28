@@ -30,4 +30,11 @@ class WeixinLoginController extends Controller{
     /**
      * 微信登录
      */
+    public function weixinLogin(){
+        // 1 回调拿到 code (用户确认登录后 微信会跳 redirect )
+        echo '<pre>';print_r($_GET);echo '</pre>';echo '<hr>';
+        echo '<pre>';print_r($_POST);echo '</pre>';
+
+        $code = $_GET['code'];          // code
+    }
 }
