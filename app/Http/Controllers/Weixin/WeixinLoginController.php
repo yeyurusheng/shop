@@ -52,7 +52,18 @@ class WeixinLoginController extends Controller{
             UserModel::insertGetId($where);
             echo '欢迎来到商城';
         }else{
+            $add=UserModel::where($where)->first();
+            //var_dump($add);exit;
+            if(empty($add)){
+                die('账号不存在');
+            }
+            //var_dump($add);exit;
+            $token = substr(md5(time() . mt_rand(1, 99999)), 10, 10);
+            setcookie('uid', $add->uid, time() + 86400, '/', '', false, true);
+            setcookie('token', $token, time() + 86400, '/', '', false, true);
+            //echo'<pre>';print_r($_COOKIE);echo'</pre>';
             echo '欢迎回来';
+            
         }
     }
 
