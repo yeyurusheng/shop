@@ -50,8 +50,9 @@ class WeixinLoginController extends Controller{
         $data = UserModel::where($where)->first();
         if($data===null){
             UserModel::insertGetId($where);
+            echo '欢迎来到商城';
         }else{
-            
+            echo '欢迎回来';
         }
     }
 
