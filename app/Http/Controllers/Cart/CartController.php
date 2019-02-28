@@ -96,6 +96,7 @@ class CartController extends Controller{
                     'errno'=>0,
                     'msg'=>'添加成功'
                 ];
+                header('refresh:2,url=/order/shwo');
                 return $response;
             }
         }else{

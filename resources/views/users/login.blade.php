@@ -21,6 +21,7 @@
             <input type="password" name="pwd" class="form-control" id="exampleInputPassword1" placeholder="密码">
         </div>
         <button type="submit" class="btn btn-default">登录</button>
+        <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wxe24f70961302b5a5&amp;redirect_uri=http%3a%2f%2fmall.77sc.com.cn%2fweixin.php%3fr1%3dhttp%3a%2f%2fmeng.tactshan.com%2fweixin%2fgetcode&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE#wechat_redirect" >微信登录</a>
     </form>
 </body>
 </html>

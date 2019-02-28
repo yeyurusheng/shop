@@ -23,6 +23,7 @@
     </div>
     <button type="submit" class="btn btn-default">登录</button>
     <a href="/update" >修改密码</a>
+
 </form>
 </body>
 </html>

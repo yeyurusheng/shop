@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Weixin;
 
+use App\Model\UserModel;
 use App\Model\WeixinMedia;
 use App\Model\WeixinService;
 use App\Model\WeixinUser;
@@ -43,6 +44,15 @@ class WeixinLoginController extends Controller{
         $user_arr = json_decode($user_json,true);
         echo '<hr>';
         echo '<pre>';print_r($user_arr);echo '</pre>';
+        $u_name = $user_arr['unionid'];
+        echo $u_name;
+        $where = ['u_name'=>$u_name];
+        $data = UserModel::where($where)->first();
+        if($data===null){
+            UserModel::insertGetId($where);
+        }else{
+            
+        }
     }
 
 

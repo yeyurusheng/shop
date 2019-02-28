@@ -107,6 +107,6 @@ class UserController extends Controller{
 	/** 退出 */
 	public function quit(){
 		setcookie('uid','',time()-1);
-		header('refresh:1,url=/login');
+		header('refresh:1,url=/melogin');
 	}
 }

@@ -26,7 +26,7 @@ class CheckLogin
         }*/
         if(empty($_COOKIE['uid'])){
             echo 'No UID ，请先登录';echo '</br>';
-            header('Refresh:0;url=/login');
+            header('Refresh:2;url=/melogin');
         }
         return $next($request);
     }

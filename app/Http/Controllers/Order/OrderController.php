@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     /** 订单展示 */
     public function show(){
-        $order_show=OrderModel::all();
+        $order_show=OrderModel::where(['uid'=>session()->get('uid')])->get();
         $data=[
             'list'=>$order_show
         ];
@@ -89,7 +89,7 @@ class OrderController extends Controller
 
     /** 订单详情展示 */
     public function detailShow(){
-        $detail_show=OrderDetailModel::all();
+        $detail_show=OrderDetailModel::where(['uid'=>session()->get('uid')])->get();
         $data=[
             'list'=>$detail_show
         ];
