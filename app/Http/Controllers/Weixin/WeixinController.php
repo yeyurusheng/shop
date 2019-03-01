@@ -511,7 +511,7 @@ class WeixinController extends Controller{
     public function getWeixinJssdkSign($param){
         $current_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];     //当前调用 jsapi的 url
         $ticket = $this->apiTicket();
-        $str =  'jsapi_ticket='.$ticket.'&noncestr='.$param['noncestr']. '&timestamp='. $param['timestamp']. '&url='.$current_url;
+        $str =  'jsapi_ticket='.$ticket.'&noncestr='.$param['nonceStr']. '&timestamp='. $param['timestamp']. '&url='.$current_url;
         $signature=sha1($str);
         return $signature;
     }
