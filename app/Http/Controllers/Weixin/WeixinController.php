@@ -536,4 +536,7 @@ class WeixinController extends Controller{
         return $ticket;
 
     }
+    /**
+     * weiixnc
+     */
 }
