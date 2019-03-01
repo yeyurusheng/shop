@@ -63,9 +63,7 @@ class WeixinLoginController extends Controller{
             setcookie('token', $token, time() + 86400, '/', '', false, true);
             //echo'<pre>';print_r($_COOKIE);echo'</pre>';
             echo '欢迎回来';
-            
+            header('refresh:2,url=/goods/list');
         }
     }
-
-
 }

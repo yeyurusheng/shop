@@ -481,5 +481,27 @@ class WeixinController extends Controller{
 
     }
 
+    /**
+     * 微信jssdk
+     */
+    public function jssdk(){
+        $jsconfig=[
+            'appid'         => env('WEIXIN_APPID'),         //appid
+            'timestamp'     =>time(),
+            'nonceStr'      =>str_random(10),
+            'signature'     =>$this->getWeixinJssdkSign(),
+        ];
+        $data =[
+            'jsconfig' => $jsconfig
+        ];
+        return view('weixin.jssdk',$data);
+    }
 
+    /**
+     * 微信签名
+     */
+    public function getWeixinJssdkSign(){
+        $sign = str_random('16');
+        return $sign;
+    }
 }
