@@ -509,7 +509,7 @@ class WeixinController extends Controller{
      * 微信签名
      */
     public function getWeixinJssdkSign($param){
-        $current_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];     //当前调用 jsapi的 url
+        $current_url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];     //当前调用 jsapi的 url
         $ticket = $this->apiTicket();
         $str =  'jsapi_ticket='.$ticket.'&noncestr='.$param['nonceStr']. '&timestamp='. $param['timestamp']. '&url='.$current_url;
         $signature=sha1($str);
@@ -536,7 +536,4 @@ class WeixinController extends Controller{
         return $ticket;
 
     }
-    /**
-     * weiixnc
-     */
 }
