@@ -488,19 +488,19 @@ class WeixinController extends Controller{
     public function jssdk(){
         //计算签名 签名的参数
 
+        //计算签名
 
-
-
-
-        $jsconfig=[
-            'appid'         => env('WEIXIN_APPID'),         //appid
-            'timestamp'     =>time(),
-            'nonceStr'      =>str_random(10),
-            //'signature'     =>$this->getWeixinJssdkSign(),
+        $jsconfig = [
+            'appid' => env('WEIXIN_APPID'),        //APPID
+            'timestamp' => time(),
+            'nonceStr'    => str_random(10),
+            //'sign'      => $this->wxJsConfigSign()
         ];
-        $jsconfig['signature'] = $this->getWeixinJssdkSign($jsconfig);
-        $data =[
-            'jsconfig' => $jsconfig
+
+        $sign = $this->getWeixinJssdkSign($jsconfig);
+        $jsconfig['sign'] = $sign;
+        $data = [
+            'jsconfig'  => $jsconfig
         ];
         return view('weixin.jssdk',$data);
     }
@@ -510,9 +510,12 @@ class WeixinController extends Controller{
      */
     public function getWeixinJssdkSign($param){
         $current_url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];     //当前调用 jsapi的 url
+        //var_dump($current_url);exit;
         $ticket = $this->apiTicket();
         $str =  'jsapi_ticket='.$ticket.'&noncestr='.$param['nonceStr']. '&timestamp='. $param['timestamp']. '&url='.$current_url;
+
         $signature=sha1($str);
+
         return $signature;
     }
 
@@ -523,20 +526,19 @@ class WeixinController extends Controller{
 
         //是否有缓存
         $ticket = Redis::get($this->redis_weixin_jssdk_api_ticket);
+
         if(!$ticket){
             //获取access_token
             $access_token = $this->getWXAccessToken();
             $ticket_url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$access_token."&type=jsapi";
-
             $ticket_info = file_get_contents($ticket_url);
             $ticket_arr = json_decode($ticket_info,true);
             if(isset($ticket_arr['ticket'])){
+                $ticket=$ticket_arr['ticket'];
                 Redis::set($this->redis_weixin_jssdk_api_ticket,$ticket);
                 Redis::setTimeout($this->redis_weixin_jssdk_api_ticket,3600);
             }
         }
-
         return $ticket;
-
     }
 }
