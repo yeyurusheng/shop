@@ -47,8 +47,8 @@ Route::get('/test/test','Test\TestController@test');
 Route::get('/test/child','Test\TestController@child');
 
 //注册
-Route::get('/register','User\UserController@register');
-Route::post('/register','User\UserController@doreg');
+Route::get('/meregister','User\UserController@register');
+Route::post('/meregister','User\UserController@doreg');
 
 // 登录
 Route::get('/melogin','User\UserController@login');
