@@ -12,6 +12,7 @@
 <body>
 <form action="/register" method="post">
     {{csrf_field()}}{{--关闭防护机制--}}
+    {{--fdsjfkjsdkl--}}
     <table>
         <tr>
             <td>用户名：</td>
