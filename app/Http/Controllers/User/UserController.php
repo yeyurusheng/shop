@@ -23,6 +23,9 @@ class UserController extends Controller{
 			header('refresh:2,/meregister');exit;
 		}
 		$pwd=password_hash($pwd1,PASSWORD_BCRYPT);
+        echo '<pre>';
+        print_r($_POST);
+        echo '</pre>';die;
 		$data=[
 			'u_name'=>$request->input('name'),
 			'pwd'=>$pwd,
