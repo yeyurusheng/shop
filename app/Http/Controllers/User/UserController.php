@@ -20,7 +20,7 @@ class UserController extends Controller{
 		$pwd2=$request->input('pwd2');
 		if($pwd1!=$pwd2){
 			echo '密码与确认密码不一致';
-			header('refresh:2,/register');exit;
+			//header('refresh:2,/register');exit;
 		}
 		$pwd=password_hash($pwd1,PASSWORD_BCRYPT);
 		$data=[
@@ -41,13 +41,13 @@ class UserController extends Controller{
 		$res=UserModel::where($where)->first();
 		if($res){
 			echo '账号已存在';
-			header('refresh:2,/register');
+			//header('refresh:2,/register');
 		}else{
 			$list=UserModel::insert($data);
 			setcookie('list',$list,time()+86400,'/','login.com',false,true);
 			echo '注册成功';
 			//header('location:/login');
-			header('refresh:2,/login');
+			//header('refresh:2,/login');
 		}
 	}
 	/** 用户登录视图 */

@@ -10,7 +10,7 @@
     <title>用户注册</title>
 </head>
 <body>
-<form action="/register" method="post">
+<form action="/meregister" method="post">
     {{csrf_field()}}{{--关闭防护机制--}}
     {{--fdsjfkjsdkl--}}
     <table>
