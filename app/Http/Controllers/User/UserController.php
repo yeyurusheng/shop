@@ -31,7 +31,7 @@ class UserController extends Controller{
 			'email'=>$request->input('email'),
 			'time'=>time()
 		];
-		//$uid=userModel::insertGetId($data);
+		$uid=userModel::insertGetId($data);
 		//var_dump($list);
 		//var_dump($uid);
 		//if($data['name'])
