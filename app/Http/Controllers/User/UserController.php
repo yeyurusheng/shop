@@ -20,9 +20,16 @@ class UserController extends Controller{
 		$pwd2=$request->input('pwd2');
 		if($pwd1!=$pwd2){
 			echo '密码与确认密码不一致';
+<<<<<<< HEAD
 			//header('refresh:2,/register');exit;
+=======
+			header('refresh:2,/meregister');exit;
+>>>>>>> 8184e5c6dbb49ec148ce017ca857b85d11272e36
 		}
 		$pwd=password_hash($pwd1,PASSWORD_BCRYPT);
+        echo '<pre>';
+        print_r($_POST);
+        echo '</pre>';die;
 		$data=[
 			'u_name'=>$request->input('name'),
 			'pwd'=>$pwd,
@@ -41,13 +48,21 @@ class UserController extends Controller{
 		$res=UserModel::where($where)->first();
 		if($res){
 			echo '账号已存在';
+<<<<<<< HEAD
 			//header('refresh:2,/register');
+=======
+			header('refresh:2,/meregister');
+>>>>>>> 8184e5c6dbb49ec148ce017ca857b85d11272e36
 		}else{
 			$list=UserModel::insert($data);
 			setcookie('list',$list,time()+86400,'/','login.com',false,true);
 			echo '注册成功';
 			//header('location:/login');
+<<<<<<< HEAD
 			//header('refresh:2,/login');
+=======
+			header('refresh:2,/melogin');
+>>>>>>> 8184e5c6dbb49ec148ce017ca857b85d11272e36
 		}
 	}
 	/** 用户登录视图 */
@@ -87,7 +102,7 @@ class UserController extends Controller{
 		//echo '<pre>';var_dump($request->session());echo '</pre>';
 		if(empty($_COOKIE['token'])){
 			echo '请先登录';
-			header('refresh:2;/login');
+			header('refresh:2;/melogin');
 		}
 		if($_COOKIE['token']!=$request->session()->get('u_token')){
 			die('非法请求');

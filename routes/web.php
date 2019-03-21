@@ -47,7 +47,11 @@ Route::get('/test/test','Test\TestController@test');
 Route::get('/test/child','Test\TestController@child');
 
 //注册
+<<<<<<< HEAD
 Route::get('/mereg','User\UserController@register');
+=======
+Route::get('/meregister','User\UserController@register');
+>>>>>>> 8184e5c6dbb49ec148ce017ca857b85d11272e36
 Route::post('/meregister','User\UserController@doreg');
 
 // 登录
