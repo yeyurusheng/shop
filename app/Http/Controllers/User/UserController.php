@@ -19,8 +19,10 @@ class UserController extends Controller{
 		$pwd1=$request->input('pwd');
 		$pwd2=$request->input('pwd2');
 		if($pwd1!=$pwd2){
-			echo '密码与确认密码不一致';
-			//header('refresh:2,/meregister');exit;
+            $response = [
+                'error' => '40003',
+                'msg'   => '密码与确认密码不一致'
+            ];
 		}
 		$pwd=password_hash($pwd1,PASSWORD_BCRYPT);
 		$data=[
@@ -30,7 +32,6 @@ class UserController extends Controller{
 			'email'=>$request->input('email'),
 			'time'=>time()
 		];
-		//$uid=UserModel::insertGetId($data);
 		$name=$request->input('name');
 		$where=[
 			'u_name'=>$name
@@ -41,7 +42,6 @@ class UserController extends Controller{
                 'error' => '40003',
                 'msg'   => '账号已存在'
             ];
-			//header('refresh:2,/meregister');
 		}else{
 			$list=UserModel::insert($data);
 			setcookie('list',$list,time()+86400,'/','melogin.com',false,true);
@@ -49,7 +49,6 @@ class UserController extends Controller{
                 'error' => '0',
                 'msg'   => 'ok'
             ];
-			//header('refresh:2,/melogin');
 		}
         return $response;
 	}
@@ -61,9 +60,7 @@ class UserController extends Controller{
 	public function doLogin(Request $request){
 		$name=$request->input('u_name');
 		$pwd=$request->input('pwd');
-		//var_dump($where);
 		$add=UserModel::where(['u_name'=>$name])->first();
-		//var_dump($add);exit;
 		if(empty($add)){
 			die('账号不存在');
 		}
@@ -72,16 +69,13 @@ class UserController extends Controller{
 			$token = substr(md5(time().mt_rand(1,99999)),10,10);
 			setcookie('uid',$add->uid,time()+86400,'/','',false,true);
 			setcookie('token',$token,time()+86400,'/','',false,true);
-			//echo'<pre>';print_r($_COOKIE);echo'</pre>';
             $response = [
                 'error' => '0',
                 'msg'   => 'ok'
             ];
 			$request->session()->put('u_token',$token);
 			$request->session()->put('uid',$add->uid);
-			//header('refresh:2;/show');
 		}else{
-			//header('refresh:2;/melogin');
             $response = [
                 'error' => '40003',
                 'msg'   => 'fail'
@@ -91,7 +85,6 @@ class UserController extends Controller{
 	}
 	/** 展示 */
 	public function show(Request $request){
-		//echo '<pre>';var_dump($request->session());echo '</pre>';
 		if(empty($_COOKIE['token'])){
 			echo '请先登录';
 			header('refresh:2;/melogin');
