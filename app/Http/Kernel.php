@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\PassLogin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -60,5 +61,7 @@ class Kernel extends HttpKernel
 
         'check.cookie'=> Middleware\CheckCookie::class,
         'check.login'=>Middleware\CheckLogin::class,
+        'pass.login'=>Middleware\PassLogin::class,
+
     ];
 }

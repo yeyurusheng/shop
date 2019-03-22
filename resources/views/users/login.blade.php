@@ -14,7 +14,7 @@
         {{csrf_field()}}
         <div class="form-group" style="width:400px;">
             <label for="exampleInputEmail1">姓名</label>
-            <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="姓名">
+            <input type="text" name="u_name" class="form-control" id="exampleInputEmail1" placeholder="姓名">
         </div>
         <div class="form-group" style="width:400px;">
             <label for="exampleInputPassword1">密码</label>
