@@ -50,8 +50,8 @@ class UserController extends Controller{
                 'msg'   => 'fail'
             ];
 			//header('refresh:2,/melogin');
-            return $response;
 		}
+        return $response;
 	}
 	/** 用户登录视图 */
 	public function login(){
