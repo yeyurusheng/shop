@@ -16,10 +16,6 @@ class PassLogin
      */
     public function handle($request, Closure $next)
     {
-        if(empty($_COOKIE['uid'])){
-            echo 'No UID ，请先登录';echo '</br>';
-            header('Refresh:2;url=http://passwei.shop.com/login');
-        }
         if(isset($_COOKIE['uid']) && isset($_COOKIE['token'])){
             $redis_key =  $redis_key = "redis:login:token:".$_COOKIE['uid'];
             $r_token = Redis::get($redis_key);

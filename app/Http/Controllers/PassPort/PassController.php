@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 class PassController extends Controller
 {
     public function index(){
-        $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $url = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         $data = [
             'url'=>$url
         ];

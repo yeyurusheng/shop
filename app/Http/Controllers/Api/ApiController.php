@@ -7,22 +7,18 @@ use App\Http\Controllers\Controller;
 
 class ApiController extends Controller
 {
-    public function api(){
-        $array = [
-            '0'=>'1',
-            '1'=>'1',
-            '2'=>'1',
-            '3'=>'1',
-            '4'=>'1',
-            '5'=>'1',
-            '6'=>'1',
-            '7'=>'1',
-            '8'=>'1',
-            '9'=>'1',
-            '10'=>'2',
-            '11'=>'2',
-        ];
-        return $array;
+    public function api(Request $request){
+        $u_name = $request->input('u_name');
+        $pwd = $request->input('pwd');
+        $url = "http://pass.tactshan.com/dologin";    //login
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,['u_name'=>$u_name,'pwd'=>$pwd]);
+        $rs = curl_exec($ch);    //接收服务端响应
+        echo $rs;
+        $response = json_decode($rs,true);
+        return $response;
 
     }
 }
