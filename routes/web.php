@@ -140,7 +140,7 @@ Route::get('weixin/getcode','Weixin\WeixinLoginController@getCode');        //�
 //微信jssdk
 Route::get('weixin/jssdk','Weixin\WeixinController@jssdk');             //微信jssdk
 //api
-Route::get('api','Api\ApiController@api');             //api
+Route::post('api','Api\ApiController@api');             //api
 
 //PassController
 Route::get('/index','PassPort\PassController@index')->middleware('pass.login');
