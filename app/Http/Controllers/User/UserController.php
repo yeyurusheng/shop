@@ -24,7 +24,7 @@ class UserController extends Controller{
 		}
 		$pwd=password_hash($pwd1,PASSWORD_BCRYPT);
 		$data=[
-			'u_name'=>$request->input('name'),
+			'u_name'=>$request->input('u_name'),
 			'pwd'=>$pwd,
 			'age'=>$request->input('age'),
 			'email'=>$request->input('email'),
@@ -38,16 +38,16 @@ class UserController extends Controller{
 		$res=UserModel::where($where)->first();
 		if($res){
             $response = [
-                'error' => '0',
-                'msg'   => 'ok'
+                'error' => '40003',
+                'msg'   => '账号已存在'
             ];
 			//header('refresh:2,/meregister');
 		}else{
 			$list=UserModel::insert($data);
 			setcookie('list',$list,time()+86400,'/','melogin.com',false,true);
             $response = [
-                'error' => '40003',
-                'msg'   => 'fail'
+                'error' => '0',
+                'msg'   => 'ok'
             ];
 			//header('refresh:2,/melogin');
 		}

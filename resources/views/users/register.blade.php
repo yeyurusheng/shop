@@ -15,7 +15,7 @@
     <table>
         <tr>
             <td>用户名：</td>
-            <td><input type="text" name="name" class="form-control" placeholder="用户名"></td>
+            <td><input type="text" name="u_name" class="form-control" placeholder="用户名"></td>
         </tr>
         <tr>
             <td>密码：</td>
