@@ -37,13 +37,20 @@ class UserController extends Controller{
 		];
 		$res=UserModel::where($where)->first();
 		if($res){
-			echo '账号已存在';
+            $response = [
+                'error' => '0',
+                'msg'   => 'ok'
+            ];
 			//header('refresh:2,/meregister');
 		}else{
 			$list=UserModel::insert($data);
 			setcookie('list',$list,time()+86400,'/','melogin.com',false,true);
-			echo '注册成功';
+            $response = [
+                'error' => '40003',
+                'msg'   => 'fail'
+            ];
 			//header('refresh:2,/melogin');
+            return $response;
 		}
 	}
 	/** 用户登录视图 */
@@ -66,15 +73,21 @@ class UserController extends Controller{
 			setcookie('uid',$add->uid,time()+86400,'/','',false,true);
 			setcookie('token',$token,time()+86400,'/','',false,true);
 			//echo'<pre>';print_r($_COOKIE);echo'</pre>';
-			echo '登陆成功';
+            $response = [
+                'error' => '0',
+                'msg'   => 'ok'
+            ];
 			$request->session()->put('u_token',$token);
 			$request->session()->put('uid',$add->uid);
 			//header('refresh:2;/show');
 		}else{
 			//header('refresh:2;/melogin');
-			echo '密码错误';
+            $response = [
+                'error' => '40003',
+                'msg'   => 'fail'
+            ];
 		};
-
+        return $response;
 	}
 	/** 展示 */
 	public function show(Request $request){
