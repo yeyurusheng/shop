@@ -15,8 +15,10 @@ class ApiController extends Controller
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_POST,1);
         curl_setopt($ch,CURLOPT_POSTFIELDS,['u_name'=>$u_name,'pwd'=>$pwd]);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_HEADER,0);
         $rs = curl_exec($ch);    //接收服务端响应
-        echo $rs;
+        //echo $rs;
         $response = json_decode($rs,true);
         return $response;
 
