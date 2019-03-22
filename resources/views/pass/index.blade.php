@@ -71,8 +71,8 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="http://passwei.shop.com/register?recurl={{$url}}">注册</a>
-                        <a href="http://passwei.shop.com/login?recurl={{$url}}">登录</a>
+                        <a href="http://passwei.shop.com/pcregister?recurl={{$url}}">注册</a>
+                        <a href="http://passwei.shop.com/pclogin?recurl={{$url}}">登录</a>
                     @endauth
                 </div>
             @endif
