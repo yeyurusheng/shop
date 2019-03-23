@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
 
 class ApiController extends Controller
 {
@@ -18,8 +19,12 @@ class ApiController extends Controller
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
         curl_setopt($ch,CURLOPT_HEADER,0);
         $rs = curl_exec($ch);    //接收服务端响应
-        //echo $rs;
         $response = json_decode($rs,true);
+        if($u_name!=''){
+            $token = $response['token'];
+            $redis_key = 'token:login:app:'.$u_name;
+            Redis::set($redis_key,$token);
+        }
         return $response;
 
     }
