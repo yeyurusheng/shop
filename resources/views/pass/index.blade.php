@@ -71,9 +71,9 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="http://passwei.shop.com/pcregister?recurl={{$url}}">注册</a>
-                        <a href="http://passwei.shop.com/pclogin?recurl={{$url}}">登录</a>
-                        <a href="http://passwei.shop.com/quit?recurl={{$url}}">退出</a>
+                        <a href="http://pass.tactshan.com/pcregister?recurl={{$url}}">注册</a>
+                        <a href="http://pass.tactshan.com/pclogin?recurl={{$url}}">登录</a>
+                        <a href="http://pass.tactshan.com/quit?recurl={{$url}}">退出</a>
                     @endauth
                 </div>
             @endif
