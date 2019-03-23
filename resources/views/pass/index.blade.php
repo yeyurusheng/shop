@@ -73,6 +73,7 @@
                     @else
                         <a href="http://passwei.shop.com/pcregister?recurl={{$url}}">注册</a>
                         <a href="http://passwei.shop.com/pclogin?recurl={{$url}}">登录</a>
+                        <a href="http://passwei.shop.com/quit?recurl={{$url}}">退出</a>
                     @endauth
                 </div>
             @endif
