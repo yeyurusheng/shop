@@ -28,4 +28,17 @@ class ApiController extends Controller
         return $response;
 
     }
+
+    public function quit(){
+        setcookie('uid','',time()-1,'/','tactshan.com',false,true);
+        $a = setcookie('token','',time()-1,'/','tactshan.com',false,true);
+        if($a){
+            $response = [
+                'error' => 0,
+                'msg'   => 'quit success'
+            ];
+        }
+        $response = json_encode($response);
+        return $response;
+    }
 }
