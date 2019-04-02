@@ -60,6 +60,7 @@ class LoginController extends Controller
                 'status' => '2'
             ];
             ExamLoginModel::where($where)->update($up_status);
+            header('refresh:1,url=/show');
 
         }else if ($status==1){
             if(empty($data) || $data->u_pwd!=md5($u_pwd)){
