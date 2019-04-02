@@ -34,6 +34,7 @@ class LoginController extends Controller
         $u_name = $request->input('u_name');
         $u_pwd = $request->input('u_pwd');
         $app = $request->input('app');
+
         $where = [
             'u_name'=>$u_name
         ];
@@ -48,13 +49,24 @@ class LoginController extends Controller
             }
             //验证通过，生成token
             $token = $this->getToken($data->u_id);
-            if(empty($token)){
+            $u_id = $data->u_id;
+            $response=[
+                'code'=>0,
+                'msg'=>'success',
+                'token'=>$token,
+                'u_id'=>$u_id
+            ];
+            echo json_encode($response);
+        }else{
+            if(empty($data) || $data->u_pwd!=md5($u_pwd)){
                 $response=[
-                    'code'=>2,
-                    'msg'=>'账户已在另一处登录',
+                    'code'=>50001,
+                    'msg'=>'账号或密码错误1！'
                 ];
-                echo json_encode($response);
+                echo json_encode($response);die;
             }
+            //验证通过，生成token
+            $token = $this->getAppToken($data->u_id);
             $u_id = $data->u_id;
             $response=[
                 'code'=>0,
