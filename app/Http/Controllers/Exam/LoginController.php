@@ -79,6 +79,10 @@ class LoginController extends Controller
                 'u_id'=>$u_id
             ];
             echo json_encode($response);
+            $up_status = [
+                'status' => '1'
+            ];
+            ExamLoginModel::where($where)->update($up_status);
         }
     }
 
