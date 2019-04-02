@@ -21,6 +21,7 @@
         密码
         <input type="password" name="u_pwd" placeholder="密码">
     </div>
+    <input type="hidden" name="status" value="2">
     <button type="submit">登录</button>
 
 </form>

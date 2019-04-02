@@ -33,12 +33,13 @@ class LoginController extends Controller
     public function dologin(Request $request){
         $u_name = $request->input('u_name');
         $u_pwd = $request->input('u_pwd');
-        $app = $request->input('app');
+        $status = $request->input('status');
+        echo $status;
         $where = [
             'u_name'=>$u_name
         ];
         $data = ExamLoginModel::where($where)->first();
-        if(empty($app)){
+        if($status==2){
             if(empty($data) || $data->u_pwd!=md5($u_pwd)){
                 $response=[
                     'code'=>50001,
@@ -56,7 +57,12 @@ class LoginController extends Controller
                 'u_id'=>$u_id
             ];
             echo json_encode($response);
-        }else{
+            $up_status = [
+                'status' => '2'
+            ];
+            ExamLoginModel::where($where)->update($up_status);
+
+        }else if ($status==1){
             if(empty($data) || $data->u_pwd!=md5($u_pwd)){
                 $response=[
                     'code'=>50001,
@@ -75,8 +81,8 @@ class LoginController extends Controller
             ];
             echo json_encode($response);
         }
-
     }
+
 
     //登录视图
     public function login(){
