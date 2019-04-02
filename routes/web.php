@@ -96,8 +96,8 @@ Route::get('/pay/alipay/returnpay','Pay\AlipayController@aliReturn');        //�
 Route::get('/pay/alipay/del','Pay\AlipayController@del');
 
 //用户登录  考试
-Route::get('exam/login','Login\LoginController@login');
-Route::post('exam/login','Login\LoginController@loginTest');
+//Route::get('exam/login','Login\LoginController@login');
+//Route::post('exam/login','Login\LoginController@loginTest');
 Route::get('redis','Login\LoginController@redis');
 Route::get('/update','Login\LoginController@pwd');
 Route::post('/update','Login\LoginController@pwdUpdate');
@@ -147,7 +147,10 @@ Route::get('/index','PassPort\PassController@index')->middleware('pass.login');
 
 
 
-
+//exam
+Route::get('/exam/login','Exam\LoginController@login');        //登录视图
+Route::post('/exam/dologin','Exam\LoginController@dologin');    //登录
+Route::get('/exam/token','Exam\LoginController@getToken');      //token
 
 
 
