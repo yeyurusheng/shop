@@ -34,7 +34,6 @@ class LoginController extends Controller
         $u_name = $request->input('u_name');
         $u_pwd = $request->input('u_pwd');
         $status = $request->input('status');
-        echo $status;
         $where = [
             'u_name'=>$u_name
         ];
