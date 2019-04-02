@@ -34,7 +34,7 @@ class LoginController extends Controller
         $u_name = $request->input('u_name');
         $u_pwd = $request->input('u_pwd');
         $app = $request->input('app');
-
+        var_dump($app);
         $where = [
             'u_name'=>$u_name
         ];
