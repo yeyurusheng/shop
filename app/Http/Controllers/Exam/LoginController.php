@@ -71,7 +71,7 @@ class LoginController extends Controller
                 echo json_encode($response);die;
             }
             //验证通过，生成token
-            $token = $this->getAppToken($data->u_id);
+            $token = $this->getToken($data->u_id);
             $u_id = $data->u_id;
             $response=[
                 'code'=>0,
