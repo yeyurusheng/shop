@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\GOods;
 
+use App\Model\ExamLoginModel;
 use App\Model\GoodsModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,12 @@ class GoodsController extends Controller{
             'list'=>$goods
         ];
         //var_dump($data);exit;
+        $status = ExamLoginModel::where(['uid'==1])->first();
+        if(!empty($status)){
+            echo '账号已在APP端登录';exit;
+        }
         return view('goods.goods',$data);
+
     }
 
     /** 商品单个展示 */
@@ -35,6 +41,7 @@ class GoodsController extends Controller{
             'goods'=>$goods
         ];
         return view('goods.show',$data);
+
     }
 }
 
