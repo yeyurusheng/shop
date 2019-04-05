@@ -93,7 +93,7 @@ class CheckAPIRequest
         $join_time=Redis::zScore($black_key , $app_id);
         if(!empty($join_time)){
             //在黑名单中
-            if(time()-$join_time>=30 * 60){
+            if(time()-$join_time>=30){
                 Redis::zRemove($black_key ,$app_id);
                 $this->_addAccessCount();
             }else{
@@ -118,7 +118,7 @@ class CheckAPIRequest
         if($count==1){
             Redis::Expire($app_id , 60);
         }
-        if($count>=100){
+        if($count>=10){
             $black_key="black_list";
             Redis::zAdd($black_key, time() ,$app_id);
             Redis::del($app_id);
