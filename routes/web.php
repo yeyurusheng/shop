@@ -80,6 +80,8 @@ Route::get('/cart/del2/{g_id}','Cart\CartController@del2');   //购物车数据�
 //商品展示 Goods
 Route::get('/goods/show/{g_id}','Goods\GoodsController@show');  //商品单个展示
 Route::get('/goods/list','Goods\GoodsController@goodsList');    //商品列表展示
+Route::get('/goods/test','Goods\GoodsController@test1');
+Route::get('/goods/test2','Goods\GoodsController@test2');
 
 //订单 Order
 Route::get('/order/add','Order\OrderController@add');//订单添加
@@ -153,8 +155,10 @@ Route::post('/exam/dologin','Exam\LoginController@dologin');    //登录
 Route::get('/exam/token','Exam\LoginController@getToken');      //token
 Route::get('/exam/status','Exam\LoginStatusController@status');
 
-
-
+//secret
+Route::get('/secret/apply','Secret\SecretController@apply');       //接口申请展示
+Route::post('/secret/doapply','Secret\SecretController@doapply');
+Route::get('/secret/examine','Secret\SecretController@examine');       //后台审核页面
 
 
 

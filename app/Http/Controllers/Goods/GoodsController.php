@@ -43,6 +43,30 @@ class GoodsController extends Controller{
         return view('goods.show',$data);
 
     }
+
+    public function test1()
+    {
+        $arr=[1,2,3,4,5,6,7];
+        $new = [];
+        $j = 0;
+        for ($i = 0; $i < count($arr); $i++) {
+            if ($i % 2 == 1) {
+                $new[$j][] = $arr[$i];$j++;
+            } else {
+                $new[$j][] = $arr[$i];
+            }
+
+        }
+        print_r($new);
+    }
+   public function test2(){
+       $arr[0] = $arr[1] = 1;
+       $n = 10;
+       for($i=2;$i<$n;$i++){
+           $arr[$i] = $arr[$i-1]+$arr[$i-2];
+       }
+       print_r($arr);
+   }
 }
 
 

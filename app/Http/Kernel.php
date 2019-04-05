@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckAPIRequest;
 use App\Http\Middleware\PassLogin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -36,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            CheckAPIRequest::class,
         ],
 
         'api' => [
