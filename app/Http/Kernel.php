@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\CheckAPIRequest;
+use App\Http\Middleware\CheckApiRequest;
 use App\Http\Middleware\PassLogin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
