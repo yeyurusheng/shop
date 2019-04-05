@@ -25,6 +25,7 @@ class CheckApiRequest
         //验签
         $data=$this->_checkClientSign( $request );
         if($data['status']==1000){
+            echo 'houzhizhongjainjian';
             return $response;
         }else{
             return response($data);
