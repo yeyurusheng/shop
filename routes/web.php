@@ -151,14 +151,9 @@ Route::get('/index','PassPort\PassController@index')->middleware('pass.login');
 
 //exam
 Route::get('/exam/login','Exam\LoginController@login');        //登录视图
-Route::post('/exam/dologin','Exam\LoginController@dologin');    //登录
+Route::post('/exam/dologin','Exam\LoginController@dologin')->middleware(\App\Http\Middleware\CheckAPIRequest::class);    //登录
 Route::get('/exam/token','Exam\LoginController@getToken');      //token
 Route::get('/exam/status','Exam\LoginStatusController@status');
-
-//secret
-Route::get('/secret/apply','Secret\SecretController@apply');       //接口申请展示
-Route::post('/secret/doapply','Secret\SecretController@doapply');
-Route::get('/secret/examine','Secret\SecretController@examine');       //后台审核页面
 
 
 

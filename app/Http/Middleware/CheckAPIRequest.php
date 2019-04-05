@@ -91,10 +91,7 @@ class CheckAPIRequest
         $black_key="black_list";
         //是否在黑名单中
         $join_time=Redis::zScore($black_key , $app_id);
-        if(empty($join_time)){
-            $this->_addAccessCount();
-            return ['status'=>1000];
-        }else{
+        if(!empty($join_time)){
             //在黑名单中
             if(time()-$join_time>=30 * 60){
                 Redis::zRemove($black_key ,$app_id);
@@ -107,6 +104,9 @@ class CheckAPIRequest
                         'data'=>[]
                     ];
             }
+        }else{
+            $this->_addAccessCount();
+            return ['status'=>1000];
         }
     }
 
