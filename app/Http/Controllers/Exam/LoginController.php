@@ -40,6 +40,7 @@ class LoginController extends Controller
         $u_pwd = $request->input('u_pwd');
         $input_status = $request->input('status');
         $status = ExamLoginModel::all()->keyBy('status');
+        echo $status;
         $where = [
             'u_name'=>$u_name
         ];

@@ -45,10 +45,18 @@ class CheckApiRequest
 
 
     /**
-     * 使用非对称加密方式对数据解密
+     * 使用非对称加密方式对数加密  私钥
      */
     private function _rsaDecrypt($request){
-        
+        $i = 0;
+        $all = '';
+        while($substr = substr($request->post('data'),$i,172)){
+            $decode_data = base64_decode($substr);
+            openssl_private_decrypt($decode_data,$decrypt_data,file_get_contents('home/key/private.key'));
+            $all .=$decrypt_data;
+            $i+=172;
+        }
+        return $all;
     }
     /**
      * 解密数据
@@ -60,6 +68,24 @@ class CheckApiRequest
             $decrypt_data = openssl_decrypt($client_data, 'AES-256-CBC', 'nihao', false, '1234567887654321');
             $this->_app_arr=json_decode($decrypt_data,true);
         }
+    }
+
+    /**
+     * 使用非对称加密方式对数据进行解密
+     */
+
+    private function _rsaEncrypt($data)
+    {
+        $i = 0;
+        $all = '';
+        $str = json_decode($data);
+        while($substr = substr($str,$i,117)){
+            $decode_data = base64_decode($substr);
+            openssl_private_encrypt($decode_data,$decrypt_data,file_get_contents('home/key/private.key'));
+            $all .=$decrypt_data;
+            $i+=117;
+        }
+        return $all;
     }
 
     // 生成签名
