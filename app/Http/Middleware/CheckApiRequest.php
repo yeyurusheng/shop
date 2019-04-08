@@ -13,7 +13,7 @@ class CheckApiRequest
         $response = $next($request);
         $client_data=$request->post('data');
         //解密数据
-        $this->_rsaDecrypt($client_data);
+        $this->_rsaEncrypt($client_data);
         //接口防刷
         $info=$this->_checkApiAccessCount();
         if($info['status']==1000){
@@ -27,6 +27,8 @@ class CheckApiRequest
             $response = $next($request);
             //后置操作，对返回的数据进行加密
             $api_response = [];
+            var_dump($this->_encrypt($request));exit;
+            $api_response['data'] = $this->_encrypt($request -> original);
             return $response;
         }else{
             return response($data);
@@ -44,7 +46,7 @@ class CheckApiRequest
 
 
     /**
-     * 使用非对称加密方式对数加密  私钥
+     * 使用非对称加密方式对数据加密  私钥
      */
     private function _rsaDecrypt($request){
         $i = 0;
@@ -70,7 +72,7 @@ class CheckApiRequest
     }
 
     /**
-     * 使用非对称加密方式对数据进行解密
+     * 使用非对称加密方式对数据进行解密   私钥
      */
 
     private function _rsaEncrypt($data)
