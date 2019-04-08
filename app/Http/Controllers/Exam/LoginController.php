@@ -39,11 +39,10 @@ class LoginController extends Controller
         $u_name = $request->input('u_name');
         $u_pwd = $request->input('u_pwd');
         $input_status = $request->input('status');
-        $status = ExamLoginModel::all()->keyBy('status');
-        echo $status;
         $where = [
             'u_name'=>$u_name
         ];
+        $status = ExamLoginModel::all()->keyBy('status')->where($where);
         $data = ExamLoginModel::where($where)->first();
         if($status==1){     //安卓在线
             if(empty($data) || $data->u_pwd!=md5($u_pwd)){

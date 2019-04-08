@@ -13,11 +13,10 @@ class CheckApiRequest
         $response = $next($request);
         $client_data=$request->post('data');
         //解密数据
-        $this->_decrypt($client_data);
+        $this->_rsaDecrypt($client_data);
         //接口防刷
         $info=$this->_checkApiAccessCount();
         if($info['status']==1000){
-            echo '后置中间件';
             return $response;
         }else{
             return response($client_data);
