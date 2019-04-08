@@ -25,11 +25,30 @@ class CheckApiRequest
         //验签
         $data=$this->_checkClientSign( $request );
         if($data['status']==1000){
-            echo 'houzhizhongjainjian';
+            $response = $next($request);
+            //后置操作，对返回的数据进行加密
+            $api_response = [];
             return $response;
         }else{
             return response($data);
         }
+    }
+    /**
+     * 使用对称加密方式对数据进行解密
+     */
+    private function _encrypt($data){
+        //数据不为空界面
+        if(!empty($data)){
+            $encrypt_data = openssl_encrypt(json_encode($data),'AES-256-CBC','nihao',false,'1234567887654321');
+        }
+    }
+
+
+    /**
+     * 使用非对称加密方式对数据解密
+     */
+    private function _rsaDecrypt($request){
+        
     }
     /**
      * 解密数据

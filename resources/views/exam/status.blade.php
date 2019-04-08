@@ -20,6 +20,8 @@
                         APP登录
                     @elseif($v['status']==2)
                         电脑登录
+                    @elseif($v['status']==3)
+                        ios登录
                     @elseif($v['status']==0)
                         没有登录
                     @endif
