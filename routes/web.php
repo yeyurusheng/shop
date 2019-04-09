@@ -155,6 +155,9 @@ Route::post('/exam/dologin','Exam\LoginController@dologin');    //登录
 Route::get('/exam/token','Exam\LoginController@getToken');      //token
 Route::get('/exam/status','Exam\LoginStatusController@status');
 
+//curl   图片上传
+Route::any('upload','Upload\UploadController@upload');
+
 
 
 Auth::routes();
