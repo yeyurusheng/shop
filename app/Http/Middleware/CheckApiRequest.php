@@ -10,10 +10,12 @@ class CheckApiRequest
     private $_app_arr=[];
     public function handle($request, Closure $next)
     {
+
         $response = $next($request);
         $client_data=$request->post('data');
         //解密数据
-        $this->_rsaEncrypt($client_data);
+        $this->_rsaDecrypt($client_data);
+        //var_dump($client_data);
         //接口防刷
         $info=$this->_checkApiAccessCount();
         if($info['status']==1000){
@@ -27,9 +29,11 @@ class CheckApiRequest
             $response = $next($request);
             //后置操作，对返回的数据进行加密
             $api_response = [];
-            var_dump($this->_encrypt($request));exit;
+            //使用对称加密对数据进行加密
             $api_response['data'] = $this->_encrypt($request -> original);
-            return $response;
+            //生成签名，返回给客户端
+            $api_response['sign'] = $this->_checkClientSign($request -> original);
+            return $response($api_response);
         }else{
             return response($data);
         }
@@ -165,7 +169,7 @@ class CheckApiRequest
         $app_id=$this->_app_arr['app_id'];
         $count=Redis::incr($app_id);
         if($count==1){
-            Redis::Expire($app_id , 60);
+            Redis::Expire($app_id , 30 * 60);
         }
         if($count>=10){
             $black_key="black_list";

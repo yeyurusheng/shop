@@ -42,75 +42,88 @@ class LoginController extends Controller
         $where = [
             'u_name'=>$u_name
         ];
-        $status = ExamLoginModel::all()->keyBy('status')->where($where);
-        $data = ExamLoginModel::where($where)->first();
-        if($status==1){     //安卓在线
-            if(empty($data) || $data->u_pwd!=md5($u_pwd)){
-                $response=[
-                    'code'=>50001,
-                    'msg'=>'账号或密码错误1！'
-                ];
-                echo json_encode($response);die;
-            }
-            if($input_status==2){
-                $response=[
-                    'code'=>40003,
-                    'msg'=>'您的账号已在安卓登录不能在PC端登录'
-                ];
-                echo json_encode($response);die;
-            }
-            //验证通过，生成token
-            $token = $this->getIosToken($data->u_id);
-            $u_id = $data->u_id;
-            $response=[
-                'code'=>0,
-                'msg'=>'success',
-                'token'=>$token,
-                'u_id'=>$u_id
-            ];
-            echo json_encode($response);
-            $up_status = [
-                'status' => $input_status
-            ];
-            ExamLoginModel::where($where)->update($up_status);
-            header('refresh:1,url=/goods/list');
 
-        }else if ($status==3){
-            if($input_status==2){
+        //var_dump($status);
+        $data = ExamLoginModel::where($where)->first();
+        $status = ExamLoginModel::where($where)->pluck('status');
+        //var_dump($status);exit;
+        if(!empty($data)){
+            $status = ExamLoginModel::where($where)->pluck('status');
+            if($status==1){     //安卓在线
+                if(empty($data) || $data->u_pwd!=md5($u_pwd)){
+                    $response=[
+                        'code'=>50001,
+                        'msg'=>'账号或密码错误1！'
+                    ];
+                    echo json_encode($response);die;
+                }
+                if($input_status==2){
+                    $response=[
+                        'code'=>40003,
+                        'msg'=>'您的账号已在安卓登录不能在PC端登录'
+                    ];
+                    echo json_encode($response);die;
+                }
+                //验证通过，生成token
+                $token = $this->getIosToken($data->u_id);
+                $u_id = $data->u_id;
+                $response=[
+                    'code'=>0,
+                    'msg'=>'success',
+                    'token'=>$token,
+                    'u_id'=>$u_id
+                ];
+                echo json_encode($response);
+                $up_status = [
+                    'status' => $input_status
+                ];
+                ExamLoginModel::where($where)->update($up_status);
+                header('refresh:1,url=/goods/list');
+
+            }else if ($status==3){
+                if($input_status==2){
+                    $response=[
+                        'code'=>40003,
+                        'msg'=>'您的账号已在ios登录不能在PC端登录'
+                    ];
+                    echo json_encode($response);die;
+                }
+                if(empty($data) || $data->u_pwd!=md5($u_pwd)){
+                    $response=[
+                        'code'=>50001,
+                        'msg'=>'账号或密码错误1！'
+                    ];
+                    echo json_encode($response);die;
+                }
+                //验证通过，生成token
+                $token = $this->getAppToken($data->u_id);
+                $u_id = $data->u_id;
+                $response=[
+                    'code'=>0,
+                    'msg'=>'success',
+                    'token'=>$token,
+                    'u_id'=>$u_id
+                ];
+                echo json_encode($response);
+                $up_status = [
+                    'status' => '1'
+                ];
+                ExamLoginModel::where($where)->update($up_status);
+            }else if($status == 2){
                 $response=[
                     'code'=>40003,
                     'msg'=>'您的账号已在ios登录不能在PC端登录'
                 ];
                 echo json_encode($response);die;
             }
-            if(empty($data) || $data->u_pwd!=md5($u_pwd)){
-                $response=[
-                    'code'=>50001,
-                    'msg'=>'账号或密码错误1！'
-                ];
-                echo json_encode($response);die;
-            }
-            //验证通过，生成token
-            $token = $this->getAppToken($data->u_id);
-            $u_id = $data->u_id;
+        }else{
             $response=[
-                'code'=>0,
-                'msg'=>'success',
-                'token'=>$token,
-                'u_id'=>$u_id
-            ];
-            echo json_encode($response);
-            $up_status = [
-                'status' => '1'
-            ];
-            ExamLoginModel::where($where)->update($up_status);
-        }else if($status == 2){
-            $response=[
-                'code'=>40003,
-                'msg'=>'您的账号已在ios登录不能在PC端登录'
+                'code'=>1000,
+                'msg'=>'您的账号不存在'
             ];
             echo json_encode($response);die;
         }
+
         return $response;
     }
 
