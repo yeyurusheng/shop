@@ -159,6 +159,8 @@ Route::get('/exam/status','Exam\LoginStatusController@status');
 Route::any('upload','Upload\UploadController@upload');
 
 Route::any('vcode/{sid}','Vcode\VcodeController@showCode');  //验证码
+Route::any('addcode/{sid}','Vcode\VcodeController@addCode');  //验证码
+
 Route::get('sid','Vcode\VcodeController@sid');  //验证码
 
 
