@@ -11,26 +11,27 @@ class CheckApiRequest
     public function handle($request, Closure $next)
     {
 
-        $response = $next($request);
-        $client_data=$request->post('data');
+//        $response = $next($request);
+//        $client_data=$request->post('data');
         //解密数据
-        $this->_rsaDecrypt($client_data);
+        $this->_rsaDecrypt($request);
         //var_dump($client_data);
         //接口防刷
         $info=$this->_checkApiAccessCount();
-        if($info['status']==1000){
-            return $response;
-        }else{
-            return response($client_data);
+        if($info['status']!=1000){
+            return response($info);
         }
         //验签
         $data=$this->_checkClientSign( $request );
+        //把解密的数据传到控制器
+        $request->request->replace((array)$this->_app_arr);
+        //判断签名是否正确
         if($data['status']==1000){
             $response = $next($request);
             //后置操作，对返回的数据进行加密
             $api_response = [];
             //使用对称加密对数据进行加密
-            $api_response['data'] = $this->_encrypt($request -> original);
+            $api_response['data'] = $this->_rsaEncrypt($request -> original);
             //生成签名，返回给客户端
             $api_response['sign'] = $this->_checkClientSign($request -> original);
             return $response($api_response);
