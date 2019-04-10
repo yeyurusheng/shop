@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 class UploadController extends Controller
 {
+
     public function upload($request){
         //指定文件存储路径
         $file_save_path = app_path().'/storage/uploads/'.date('ym').'/';

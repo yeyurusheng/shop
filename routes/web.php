@@ -158,6 +158,10 @@ Route::get('/exam/status','Exam\LoginStatusController@status');
 //curl   图片上传
 Route::any('upload','Upload\UploadController@upload');
 
+Route::any('vcode/{sid}','Vcode\VcodeController@showCode');  //验证码
+Route::get('sid','Vcode\VcodeController@sid');  //验证码
+
+
 
 
 Auth::routes();

@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Vcode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+
 class VcodeController extends Controller
 {
+    public function sid(){
+        session_start();
+        $sid = session_id();
+        var_dump($sid);
+    }
     //验证码
     public function showCode(Request $request,$sid){
         session_id($sid);
@@ -18,7 +24,19 @@ class VcodeController extends Controller
         //创建几个颜色
         $white = imagecolorallocate($im,255,255,255);
         $black = imagecolorallocate($im,0,0,0);
+        //填充画布的背景色
         imagefilledrectangle($im,0,0,399,29,$white);
-        $text = rand(1,1,1,1,4,4,4,4);
+
+        $i=0;
+        while($i<5){
+            if(is_numeric($rand[$i])){
+                imagettftext($im,20,rand(-30,30),10+20*$i,24,$black,'',$rand[$i]);
+            }else{
+                imagettftext($im,20,0,10+20*$i,24,$black,'' ,$rand[$i]);
+            }
+            $i++;
+        }
+        imagepng($im);
+        imagedestroy($im);exit;
     }
 }
