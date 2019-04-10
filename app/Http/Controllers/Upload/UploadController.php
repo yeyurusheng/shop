@@ -8,9 +8,11 @@ use App\Http\Controllers\Controller;
 class UploadController extends Controller
 {
 
-    public function upload($request){
+    public function upload(Request $request){
         //指定文件存储路径
+        //echo 111;
         $file_save_path = app_path().'/storage/uploads/'.date('ym').'/';
+        //var_dump($file_save_path);exit;
         if(!is_dir($file_save_path)){
             mkdir($file_save_path,0777,true);
         }
@@ -40,7 +42,7 @@ class UploadController extends Controller
             $api_response = [];
             $access_path = str_replace(app_path().'/storage','',$file_save_path);
             $api_response['access_path'] = env('FILE_UPLOAD_URL').$access_path.$new_file_name;
-            var_dump($api_response);
+            var_dump(env('FILE_UPLOAD_URL'));
             return ['status' => 1000,'data'=>$api_response,'msg'=>'success'];
 
         }
