@@ -161,8 +161,10 @@ Route::post('/upload','Upload\UploadController@upload');
 Route::any('vcode/{sid}','Vcode\VcodeController@showCode');  //验证码
 Route::any('addcode/{sid}','Vcode\VcodeController@addCode');  //验证码
 
-Route::get('sid','Vcode\VcodeController@sid');  //验证码
+Route::any('sid','Vcode\VcodeController@sid');  //验证码sid
+Route::any('checkvcode','Vcode\VcodeController@checkVcode');  //判断用户传过来的验证码是否正确
 
+Route::post('uplogin','Upload\UploadController@dologin')->middleware('api.check');
 
 
 

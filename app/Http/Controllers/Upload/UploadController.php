@@ -47,5 +47,8 @@ class UploadController extends Controller
 
         }
     }
-
+    public function dologin(){
+        echo 111;
+        return ['status'=>1000];
+    }
 }

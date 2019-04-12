@@ -11,13 +11,24 @@ class VcodeController extends Controller
     public function sid(){
         session_start();
         $sid = session_id();
-        var_dump($sid);
+        $url = 'http://shop.com/vcode/'.$sid;
+        $data = [
+            'sid' => $sid,
+            'url' => $url
+        ];
+//        var_dump($data);
+        return  $data;
+
     }
     //验证码   随机数
     public function showCode(Request $request,$sid){
+
         session_id($sid);
         session_start();
+//        var_dump($sid);exit;
+//        var_dump($url);
         $rand = rand(1000,9999);
+        $_SESSION=['code'=>$rand];
         //var_dump($rand);exit;
         header('content-type:image/png');
         //创建一个400*30 的画布
@@ -40,7 +51,9 @@ class VcodeController extends Controller
 //            $i++;
 //        }
         imagepng($im);
-        imagedestroy($im);exit;
+        imagedestroy($im);
+        exit;
+
     }
 
 
@@ -80,5 +93,24 @@ class VcodeController extends Controller
 
         imagepng($im);
         imagedestroy($im);exit;
+    }
+
+
+    
+
+    /**
+     * 判断用户传过来的验证码是否正确
+     */
+    public function checkVcode(Request $request){
+        $sid = $request->post('sid');
+        $vcode = $request->post('vcode');
+        session_id($sid);
+        session_start();
+        $code = $_SESSION['code'];
+        if($vcode == $code){
+            return ['status' => 1000,'msg' => 'success'];
+        }else{
+            return ['status' => 0,'msg' => 'fail'];
+        }
     }
 }

@@ -109,4 +109,5 @@ class UserController extends Controller{
 		setcookie('uid','',time()-1);
 		header('refresh:1,url=/melogin');
 	}
+
 }
