@@ -18,8 +18,8 @@ class AlipayController extends Controller
     public $gate_way;
     public $notify_url;
     public $return_url;
-    public $rsaPrivateKeyFilePath = './key/priv.key';
-    public $aliPubKey = './key/ali_pub.key';
+    public $rsaPrivateKeyFilePath = './key/ali_private.key';
+    public $aliPubKey = './key/ali_public.key';
 
 
     public function __construct()
