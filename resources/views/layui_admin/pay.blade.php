@@ -10,6 +10,7 @@
 </head>
 <body>
 <table class="layui-hide" id="demo" lay-filter="test"></table>
+
 <div style="padding: 15px;">
     <div class="layui-input-inline">
         <input type="text" placeholder="请输入订单号" id="order_sn" class="layui-input" autocomplete="off" style="width:300px;">

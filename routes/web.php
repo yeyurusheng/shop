@@ -166,7 +166,7 @@ Route::post('uplogin','Upload\UploadController@dologin')->middleware('api.check'
 
 Route::any('admin/alipay','layui\LayuiController@layui');
 Route::any('admin/layui','layui\LayuiController@pay');
-Route::any('admin/update/','layui\LayuiController@update_status');
+Route::any('admin/update/{order_sn}','layui\LayuiController@update_status');
 
 
 
