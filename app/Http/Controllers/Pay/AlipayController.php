@@ -34,7 +34,7 @@ class AlipayController extends Controller
     /**
      * 请求订单服务 处理订单逻辑
      *
-     */
+
     public function test0()
     {
         //
@@ -87,7 +87,7 @@ class AlipayController extends Controller
         $url = $this->gate_way . $url;
         header("Location:".$url);
     }
-
+     */
 
     /**
      * 订单支付
