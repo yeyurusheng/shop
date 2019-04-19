@@ -98,8 +98,6 @@ Route::get('/pay/alipay/returnpay','Pay\AlipayController@aliReturn');        //�
 Route::get('/pay/alipay/del','Pay\AlipayController@del');
 
 //用户登录  考试
-//Route::get('exam/login','Login\LoginController@login');
-//Route::post('exam/login','Login\LoginController@loginTest');
 Route::get('redis','Login\LoginController@redis');
 Route::get('/update','Login\LoginController@pwd');
 Route::post('/update','Login\LoginController@pwdUpdate');
@@ -165,6 +163,10 @@ Route::any('sid','Vcode\VcodeController@sid');  //验证码sid
 Route::any('checkvcode','Vcode\VcodeController@checkVcode');  //判断用户传过来的验证码是否正确
 
 Route::post('uplogin','Upload\UploadController@dologin')->middleware('api.check');
+
+Route::any('admin/alipay','layui\LayuiController@layui');
+Route::any('admin/layui','layui\LayuiController@pay');
+Route::any('admin/update/{d_id}','layui\LayuiController@update_status');
 
 
 
